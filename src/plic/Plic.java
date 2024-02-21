@@ -32,6 +32,9 @@ public class Plic {
             if (args.length == 0) {
                 throw new IllegalArgumentException("ERREUR: Fichier source absent");
             }
+            if (args.length > 1) {
+                throw new IllegalArgumentException("ERREUR: Trop d'arguments");
+            }
             new Plic(args[0]);
         } catch (NotPlicFileException | IllegalArgumentException | SyntaxiqueException | DoubleDeclarationException |
                  DeclarManquanteException e) {
