@@ -1,0 +1,9 @@
+// Salut
+// Pouet
+programme plicZeroD {
+    entier toto ; // Yo
+    toto := 12 ;
+    ecrire toto ;
+}
+// Bye
+// Poupou

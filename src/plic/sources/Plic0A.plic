@@ -1,0 +1,10 @@
+// Coucou je suis programme plicZeroA
+programme plicZeroA {
+    entier a ; // Déclaration de la variable a
+    entier b ;
+    a := 4 ;
+    b := 5 ;
+    // Ecriture de la variable a
+    ecrire a ;
+    ecrire b ;
+}

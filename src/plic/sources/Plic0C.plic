@@ -1,0 +1,7 @@
+// Salut
+programme plicZeroC {
+    entier toto ; // Yo
+    toto := 12 ;
+    ecrire toto ;
+}
+// Bye

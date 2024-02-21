@@ -1,0 +1,6 @@
+programme plicZeroB {
+    entier toto ; // Déclaration de la variable toto
+    toto := 12 ; // Affectation de la valeur 12 à la variable toto
+    ecrire toto ; // Affichage de la valeur de la variable toto
+}
+// C'est la fin pour moi
