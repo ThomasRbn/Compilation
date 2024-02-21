@@ -1,6 +1,6 @@
 package plic.analyse;
 
-import plic.exceptions.DoubleDeclaration;
+import plic.exceptions.DoubleDeclarationException;
 import plic.exceptions.SyntaxiqueException;
 import plic.repint.*;
 
@@ -54,7 +54,7 @@ public class AnalyseurSyntaxique {
      *
      * @return
      */
-    public Bloc analyse() throws SyntaxiqueException, DoubleDeclaration {
+    public Bloc analyse() throws SyntaxiqueException, DoubleDeclarationException {
         Bloc bloc = new Bloc();
         uniteCourante = analyseurLexical.next();
         analyseProg(bloc);
@@ -67,7 +67,7 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseProg(Bloc bloc) throws SyntaxiqueException, DoubleDeclaration {
+    private void analyseProg(Bloc bloc) throws SyntaxiqueException, DoubleDeclarationException {
         analyseTerminal("programme"); // Mot clé programme
 
         if (!estIdf()) // Identifiant
@@ -82,7 +82,7 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseBloc(Bloc bloc) throws SyntaxiqueException, DoubleDeclaration {
+    private void analyseBloc(Bloc bloc) throws SyntaxiqueException, DoubleDeclarationException {
         analyseTerminal("{");
 
         while (estDeclaration()) { // Déclarations*
@@ -101,7 +101,7 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseDeclaration() throws SyntaxiqueException, DoubleDeclaration {
+    private void analyseDeclaration() throws SyntaxiqueException, DoubleDeclarationException {
         String type = uniteCourante;
         analyseType();
 

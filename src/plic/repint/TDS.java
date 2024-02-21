@@ -1,6 +1,6 @@
 package plic.repint;
 
-import plic.exceptions.DoubleDeclaration;
+import plic.exceptions.DoubleDeclarationException;
 
 import java.util.Map;
 
@@ -26,9 +26,9 @@ public class TDS {
         instance = new TDS();
     }
 
-    public void ajouter(Entree e, Symbole s) throws DoubleDeclaration {
+    public void ajouter(Entree e, Symbole s) throws DoubleDeclarationException {
         if (table.containsKey(e))
-            throw new DoubleDeclaration("ERREUR: identifiant " + e.getIdf() + " déjà déclaré");
+            throw new DoubleDeclarationException("ERREUR: identifiant " + e.getIdf() + " déjà déclaré");
 
         s.setDeplacement(cplDecl);
         table.put(e, s);
@@ -38,6 +38,10 @@ public class TDS {
 
     public int getCplDecl() {
         return cplDecl;
+    }
+
+    public Symbole identifier(Entree e) {
+        return table.get(e);
     }
 
     @Override

@@ -3,7 +3,7 @@ package plic.tests;
 //JUNIT
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import plic.exceptions.DoubleDeclaration;
+import plic.exceptions.DoubleDeclarationException;
 import plic.repint.Entree;
 import plic.repint.Symbole;
 import plic.repint.TDS;
@@ -19,16 +19,16 @@ public class TestTDS {
     }
 
     @Test
-    public void testAjouterOK() throws DoubleDeclaration {
+    public void testAjouterOK() throws DoubleDeclarationException {
         TDS tds = TDS.getInstance();
         tds.ajouter(new Entree("test"), new Symbole("int", 0));
         assertEquals(1, tds.getCplDecl());
     }
 
     @Test
-    public void testAjouterKO() throws DoubleDeclaration {
+    public void testAjouterKO() throws DoubleDeclarationException {
         TDS tds = TDS.getInstance();
         tds.ajouter(new Entree("test"), new Symbole("int", 0));
-        assertThrows(DoubleDeclaration.class, () -> tds.ajouter(new Entree("test"), new Symbole("int", 0)));
+        assertThrows(DoubleDeclarationException.class, () -> tds.ajouter(new Entree("test"), new Symbole("int", 0)));
     }
 }

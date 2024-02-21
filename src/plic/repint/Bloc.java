@@ -1,5 +1,7 @@
 package plic.repint;
 
+import plic.exceptions.DeclarManquanteException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +25,11 @@ public class Bloc {
         }
         res += "}";
         return res;
+    }
+
+    public void verifier() throws DeclarManquanteException {
+        for (Instruction i : instructions){
+            i.verifier();
+        }
     }
 }

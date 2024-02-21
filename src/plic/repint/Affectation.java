@@ -1,5 +1,7 @@
 package plic.repint;
 
+import plic.exceptions.DeclarManquanteException;
+
 public class Affectation extends Instruction {
 
     private Idf idf;
@@ -18,4 +20,9 @@ public class Affectation extends Instruction {
         return idf + " := " + expression + " ;";
     }
 
+    @Override
+    public void verifier() throws DeclarManquanteException {
+        idf.verifier();
+        expression.verifier();
+    }
 }
