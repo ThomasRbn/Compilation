@@ -22,4 +22,17 @@ public class Ecrire extends Instruction {
     public void verifier() throws DeclarManquanteException {
         expression.verifier();
     }
+
+    @Override
+    public String toMIPS() {
+        return "\t# Ecrire " + expression + "\n"
+                + expression.toMIPS()
+                + "\tmove $a0, $v0\n"
+                + "\tli $v0, 1\n"
+                + "\tsyscall\n\n"
+                + "\t# Saut de ligne\n"
+                + "\tla $a0, crlf\n"
+                + "\tli $v0, 4\n"
+                + "\tsyscall\n\n";
+    }
 }

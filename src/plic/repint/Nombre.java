@@ -19,4 +19,8 @@ public class Nombre extends Expression {
     public void verifier() {
     }
 
+    public String toMIPS() {
+        return "\tli $v0, " + val + "\n";
+    }
+
 }

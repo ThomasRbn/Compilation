@@ -25,4 +25,11 @@ public class Affectation extends Instruction {
         idf.verifier();
         expression.verifier();
     }
+
+    @Override
+    public String toMIPS() {
+        return "\t# Affectation de " + expression + " à " + idf.getNom() + "\n"
+                + expression.toMIPS()
+                + "\tsw $v0, " + TDS.getInstance().identifier(new Entree(idf.getNom())).getDeplacement() + "($s7)\n\n";
+    }
 }

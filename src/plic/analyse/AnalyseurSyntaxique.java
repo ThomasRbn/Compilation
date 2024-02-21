@@ -148,7 +148,7 @@ public class AnalyseurSyntaxique {
             throw new SyntaxiqueException("ERREUR: mot clé ES attendu mais " + uniteCourante + " trouvé");
         uniteCourante = analyseurLexical.next();
 
-        Idf idf = analyseAcces();
+        Expression idf = analyseExpression();
 
         analyseTerminal(";");
 
@@ -203,9 +203,15 @@ public class AnalyseurSyntaxique {
     private Expression analyseOperande() throws SyntaxiqueException {
         if (!estIdf() && !uniteCourante.matches("[0-9]+")) // Identifiant ou entier
             throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + uniteCourante + " trouvé");
-        Expression expression = new Nombre(Integer.parseInt(uniteCourante));
-        uniteCourante = analyseurLexical.next();
-        return expression;
+        try {
+            int entier = Integer.parseInt(uniteCourante);
+            uniteCourante = analyseurLexical.next();
+            return new Nombre(entier);
+        } catch (NumberFormatException e) {
+            Idf idf = new Idf(uniteCourante);
+            uniteCourante = analyseurLexical.next();
+            return idf;
+        }
     }
 
     /**

@@ -44,6 +44,15 @@ public class TDS {
         return table.get(e);
     }
 
+    public String toMIPS() {
+        return """
+                \tmove $s7, $sp
+                \tadd $sp, $sp, -""" + -cplDecl + """
+                
+                
+                """;
+    }
+
     @Override
     public String toString() {
         String res = "TDS {\n";
