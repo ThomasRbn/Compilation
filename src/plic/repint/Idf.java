@@ -10,4 +10,8 @@ public class Idf extends Expression {
     public String getNom() {
         return nom;
     }
+
+    public String toString() {
+        return nom;
+    }
 }

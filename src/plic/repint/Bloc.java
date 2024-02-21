@@ -15,4 +15,13 @@ public class Bloc {
         this.instructions.add(i);
     }
 
+    @Override
+    public String toString() {
+        String res = "Bloc {\n";
+        for (Instruction i : instructions){
+            res += i + "\n";
+        }
+        res += "}";
+        return res;
+    }
 }

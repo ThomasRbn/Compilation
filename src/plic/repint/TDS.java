@@ -33,10 +33,20 @@ public class TDS {
         s.setDeplacement(cplDecl);
         table.put(e, s);
         cplDecl -= 4;
-        System.out.println(e + " => " + s);
+//        System.out.println(e + " => " + s);
     }
 
     public int getCplDecl() {
         return cplDecl;
+    }
+
+    @Override
+    public String toString() {
+        String res = "TDS {\n";
+        for (Map.Entry<Entree, Symbole> e : table.entrySet()) {
+            res += e.getKey() + " => " + e.getValue() + "\n";
+        }
+        res += "}";
+        return res;
     }
 }

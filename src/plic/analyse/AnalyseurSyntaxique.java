@@ -2,9 +2,7 @@ package plic.analyse;
 
 import plic.exceptions.DoubleDeclaration;
 import plic.exceptions.SyntaxiqueException;
-import plic.repint.Entree;
-import plic.repint.Symbole;
-import plic.repint.TDS;
+import plic.repint.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +30,7 @@ public class AnalyseurSyntaxique {
     private String uniteCourante;
 
     public AnalyseurSyntaxique(File fichier) throws FileNotFoundException {
-        this.analyseurLexical = new AnalyseurLexical(fichier);
+        analyseurLexical = new AnalyseurLexical(fichier);
 
         motsCles = new ArrayList<>() {{
             add("programme");
@@ -53,11 +51,15 @@ public class AnalyseurSyntaxique {
 
     /**
      * Traite l'analyse syntaxique du programme
+     *
+     * @return
      */
-    public void analyse() throws SyntaxiqueException, DoubleDeclaration {
-        this.uniteCourante = this.analyseurLexical.next();
-        this.analyseProg();
-        this.analyseTerminal("EOF");
+    public Bloc analyse() throws SyntaxiqueException, DoubleDeclaration {
+        Bloc bloc = new Bloc();
+        uniteCourante = analyseurLexical.next();
+        analyseProg(bloc);
+        analyseTerminal("EOF");
+        return bloc;
     }
 
     /**
@@ -65,14 +67,14 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseProg() throws SyntaxiqueException, DoubleDeclaration {
-        this.analyseTerminal("programme"); // Mot clé programme
+    private void analyseProg(Bloc bloc) throws SyntaxiqueException, DoubleDeclaration {
+        analyseTerminal("programme"); // Mot clé programme
 
-        if (!this.estIdf()) // Identifiant
-            throw new SyntaxiqueException("ERREUR: idf attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+        if (!estIdf()) // Identifiant
+            throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+        uniteCourante = analyseurLexical.next();
 
-        this.analyseBloc(); // Bloc
+        analyseBloc(bloc); // Bloc
     }
 
     /**
@@ -80,18 +82,18 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseBloc() throws SyntaxiqueException, DoubleDeclaration {
-        this.analyseTerminal("{");
+    private void analyseBloc(Bloc bloc) throws SyntaxiqueException, DoubleDeclaration {
+        analyseTerminal("{");
 
-        while (this.estDeclaration()) { // Déclarations*
-            this.analyseDeclaration();
+        while (estDeclaration()) { // Déclarations*
+            analyseDeclaration();
         }
 
-        this.analyseInstruction(); // Instruction+
-        while (this.estInstruction()) {
-            this.analyseInstruction();
+        bloc.ajouter(analyseInstruction()); // Instruction+
+        while (estInstruction()) {
+            bloc.ajouter(analyseInstruction());
         }
-        this.analyseTerminal("}");
+        analyseTerminal("}");
     }
 
     /**
@@ -100,15 +102,15 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private void analyseDeclaration() throws SyntaxiqueException, DoubleDeclaration {
-        String type = this.uniteCourante;
-        this.analyseType();
+        String type = uniteCourante;
+        analyseType();
 
-        if (!this.estIdf()) // Identifiant
-            throw new SyntaxiqueException("ERREUR: idf attendu mais " + this.uniteCourante + " trouvé");
-        TDS.getInstance().ajouter(new Entree(this.uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
-        this.uniteCourante = this.analyseurLexical.next();
+        if (!estIdf()) // Identifiant
+            throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+        TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
+        uniteCourante = analyseurLexical.next();
 
-        this.analyseTerminal(";");
+        analyseTerminal(";");
     }
 
     /**
@@ -117,9 +119,9 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private void analyseType() throws SyntaxiqueException {
-        if (!this.motsDeclaration.contains(this.uniteCourante)) // Mot clé de déclaration
-            throw new SyntaxiqueException("ERREUR: mot clé de déclaration attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+        if (!motsDeclaration.contains(uniteCourante)) // Mot clé de déclaration
+            throw new SyntaxiqueException("ERREUR: mot clé de déclaration attendu mais " + uniteCourante + " trouvé");
+        uniteCourante = analyseurLexical.next();
     }
 
     /**
@@ -127,15 +129,13 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseInstruction() throws SyntaxiqueException {
-        if (this.estAffectation()) { // Affectation
-            this.analyseAffectation();
-            return;
-        } else if (this.estES()) { // ES
-            this.analyseES();
-            return;
+    private Instruction analyseInstruction() throws SyntaxiqueException {
+        if (estAffectation()) { // Affectation
+            return analyseAffectation();
+        } else if (estES()) { // ES
+            return analyseES();
         }
-        throw new SyntaxiqueException("ERREUR: instruction attendue mais " + this.uniteCourante + " trouvé");
+        throw new SyntaxiqueException("ERREUR: instruction attendue mais " + uniteCourante + " trouvé");
     }
 
     /**
@@ -143,16 +143,16 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseES() throws SyntaxiqueException {
-        if (!this.motsES.contains(this.uniteCourante))
-            throw new SyntaxiqueException("ERREUR: mot clé ES attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+    private Ecrire analyseES() throws SyntaxiqueException {
+        if (!motsES.contains(uniteCourante))
+            throw new SyntaxiqueException("ERREUR: mot clé ES attendu mais " + uniteCourante + " trouvé");
+        uniteCourante = analyseurLexical.next();
 
-        if (!this.estIdf()) // Identifiant
-            throw new SyntaxiqueException("ERREUR: idf attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+        Idf idf = analyseAcces();
 
-        this.analyseTerminal(";");
+        analyseTerminal(";");
+
+        return new Ecrire(idf);
     }
 
     /**
@@ -160,15 +160,17 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseAffectation() throws SyntaxiqueException {
+    private Affectation analyseAffectation() throws SyntaxiqueException {
 
-        this.analyseAcces();
+        Idf idf = analyseAcces();
 
-        this.analyseTerminal(":="); // Affectation
+        analyseTerminal(":="); // Affectation
 
-        this.analyseExpression();
+        Expression exp = analyseExpression();
 
-        this.analyseTerminal(";");
+        analyseTerminal(";");
+
+        return new Affectation(idf, exp);
     }
 
     /**
@@ -176,10 +178,12 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseAcces() throws SyntaxiqueException {
-        if (!this.estIdf()) // Identifiant
-            throw new SyntaxiqueException("ERREUR: idf attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+    private Idf analyseAcces() throws SyntaxiqueException {
+        if (!estIdf()) // Identifiant
+            throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+        Idf idf = new Idf(uniteCourante);
+        uniteCourante = analyseurLexical.next();
+        return idf;
     }
 
     /**
@@ -187,8 +191,8 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseExpression() throws SyntaxiqueException {
-        this.analyseOperande();
+    private Expression analyseExpression() throws SyntaxiqueException {
+        return analyseOperande();
     }
 
     /**
@@ -196,10 +200,12 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseOperande() throws SyntaxiqueException {
-        if (!this.estIdf() && !this.uniteCourante.matches("[0-9]+")) // Identifiant ou entier
-            throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+    private Expression analyseOperande() throws SyntaxiqueException {
+        if (!estIdf() && !uniteCourante.matches("[0-9]+")) // Identifiant ou entier
+            throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + uniteCourante + " trouvé");
+        Expression expression = new Nombre(Integer.parseInt(uniteCourante));
+        uniteCourante = analyseurLexical.next();
+        return expression;
     }
 
     /**
@@ -209,9 +215,9 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'unite courante n'est pas le terminal attendu
      */
     private void analyseTerminal(String terminal) throws SyntaxiqueException {
-        if (!this.uniteCourante.equals(terminal))
-            throw new SyntaxiqueException("ERREUR: " + terminal + " attendu mais " + this.uniteCourante + " trouvé");
-        this.uniteCourante = this.analyseurLexical.next();
+        if (!uniteCourante.equals(terminal))
+            throw new SyntaxiqueException("ERREUR: " + terminal + " attendu mais " + uniteCourante + " trouvé");
+        uniteCourante = analyseurLexical.next();
     }
 
     /**
@@ -220,7 +226,7 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est un identifiant
      */
     private boolean estIdf() {
-        return this.uniteCourante.matches("[a-zA-Z]+") && !this.motsCles.contains(this.uniteCourante);
+        return uniteCourante.matches("[a-zA-Z]+") && !motsCles.contains(uniteCourante);
     }
 
     /**
@@ -229,7 +235,7 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est un mot clé de déclaration
      */
     private boolean estDeclaration() {
-        return this.motsDeclaration.contains(this.uniteCourante);
+        return motsDeclaration.contains(uniteCourante);
     }
 
     /**
@@ -238,7 +244,7 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est une affectation ou un ES
      */
     private boolean estInstruction() {
-        return this.estAffectation() || this.estES();
+        return estAffectation() || estES();
     }
 
     /**
@@ -247,7 +253,7 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est un idf
      */
     private boolean estAffectation() {
-        return this.estIdf();
+        return estIdf();
     }
 
     /**
@@ -256,6 +262,6 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est un mot clé ES
      */
     private boolean estES() {
-        return this.motsES.contains(this.uniteCourante);
+        return motsES.contains(uniteCourante);
     }
 }

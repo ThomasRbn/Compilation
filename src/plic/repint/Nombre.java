@@ -12,4 +12,8 @@ public class Nombre extends Expression {
         return val;
     }
 
+    public String toString() {
+        return "" + val;
+    }
+
 }
