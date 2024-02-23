@@ -48,8 +48,7 @@ public class Bloc {
         res += """
                 end:
                 \tli $v0, 10
-                \tsyscall
-                """;
+                \tsyscall""";
         return res;
     }
 }
