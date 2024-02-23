@@ -8,10 +8,6 @@ public class Nombre extends Expression {
         this.val = val;
     }
 
-    public int getVal() {
-        return val;
-    }
-
     public String toString() {
         return "" + val;
     }
