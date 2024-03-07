@@ -21,14 +21,14 @@ public class TestTDS {
     @Test
     public void testAjouterOK() throws DoubleDeclarationException {
         TDS tds = TDS.getInstance();
-        tds.ajouter(new Entree("test"), new Symbole("int", 0));
-        assertEquals(1, tds.getCplDecl());
+        tds.ajouter(new Entree("test"), new Symbole("entier", 0, -1));
+        assertEquals(-4, tds.getCplDecl());
     }
 
     @Test
     public void testAjouterKO() throws DoubleDeclarationException {
         TDS tds = TDS.getInstance();
-        tds.ajouter(new Entree("test"), new Symbole("int", 0));
-        assertThrows(DoubleDeclarationException.class, () -> tds.ajouter(new Entree("test"), new Symbole("int", 0)));
+        tds.ajouter(new Entree("test"), new Symbole("entier", 0, -1));
+        assertThrows(DoubleDeclarationException.class, () -> tds.ajouter(new Entree("test"), new Symbole("entier", 0, -1)));
     }
 }
