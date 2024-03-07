@@ -23,8 +23,8 @@ public class Plic {
         Bloc bloc = analyseurSyntaxique.analyse();
         bloc.verifier();
 //        System.out.println(bloc);
-//        System.out.println(TDS.getInstance());
-        System.out.println(bloc.toMIPS());
+        System.out.println(TDS.getInstance());
+//        System.out.println(bloc.toMIPS());
     }
 
     public static void main(String[] args) {

@@ -104,23 +104,32 @@ public class AnalyseurSyntaxique {
      */
     private void analyseDeclaration() throws SyntaxiqueException, DoubleDeclarationException {
         String type = uniteCourante;
-        int taille = -1;
         analyseType();
 
         if (type.equals("tableau")) {
             analyseTerminal("[");
+
             if (!uniteCourante.matches("[0-9]+")) // Entier
                 throw new SyntaxiqueException("ERREUR: entier attendu mais " + uniteCourante + " trouvé");
-            taille = Integer.parseInt(uniteCourante);
+
+            int taille = Integer.parseInt(uniteCourante);
+
             uniteCourante = analyseurLexical.next();
+
             analyseTerminal("]");
+            System.out.println("uniteCourante : " + uniteCourante + " type : " + type + " taille : " + taille);
+
+            if (!estIdf()) // Identifiant
+                throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+            TDS.getInstance().ajouter(new Entree(uniteCourante), new Tableau(type, TDS.getInstance().getCplDecl(), taille));
+            uniteCourante = analyseurLexical.next();
+
+        } else {
+            if (!estIdf()) // Identifiant
+                throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+            TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
+            uniteCourante = analyseurLexical.next();
         }
-
-        if (!estIdf()) // Identifiant
-            throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
-
-        TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
-        uniteCourante = analyseurLexical.next();
 
         analyseTerminal(";");
     }

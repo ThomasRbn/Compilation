@@ -2,8 +2,8 @@ package plic.repint;
 
 public class Symbole {
 
-    private String type;
-    private int deplacement;
+    protected String type;
+    protected int deplacement;
 
     public Symbole(String type, int deplacement) {
         this.type = type;
