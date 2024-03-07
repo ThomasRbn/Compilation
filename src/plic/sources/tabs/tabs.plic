@@ -1,0 +1,6 @@
+programme toto {
+    tableau [ 3 ] thomas ;
+    entier i ;
+
+    i := 0 ;
+}
