@@ -119,7 +119,7 @@ public class AnalyseurSyntaxique {
         if (!estIdf()) // Identifiant
             throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
 
-        TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl(), taille));
+        TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
         uniteCourante = analyseurLexical.next();
 
         analyseTerminal(";");
