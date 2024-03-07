@@ -12,6 +12,11 @@ public class Nombre extends Expression {
         return "" + val;
     }
 
+    @Override
+    public String getType() {
+        return "entier";
+    }
+
     public void verifier() {
     }
 

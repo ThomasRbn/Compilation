@@ -38,8 +38,8 @@ public class Plic {
             new Plic(args[0]);
         } catch (NotPlicFileException | IllegalArgumentException | SyntaxiqueException | DoubleDeclarationException |
                  DeclarManquanteException e) {
-            System.out.println(e.getMessage());
-//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
             System.out.println("ERREUR: Fichier introuvable");
 //            e.printStackTrace();

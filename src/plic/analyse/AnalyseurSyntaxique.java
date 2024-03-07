@@ -183,7 +183,7 @@ public class AnalyseurSyntaxique {
      */
     private Affectation analyseAffectation() throws SyntaxiqueException {
 
-        Idf idf = analyseAcces();
+        Acces acces = analyseAcces();
 
         analyseTerminal(":="); // Affectation
 
@@ -191,7 +191,10 @@ public class AnalyseurSyntaxique {
 
         analyseTerminal(";");
 
-        return new Affectation(idf, exp);
+        Affectation affectation = new Affectation(acces, exp);
+        System.out.println(affectation);
+
+        return affectation;
     }
 
     /**
@@ -199,12 +202,25 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private Idf analyseAcces() throws SyntaxiqueException {
+    private Acces analyseAcces() throws SyntaxiqueException {
         if (!estIdf()) // Identifiant
             throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
-        Idf idf = new Idf(uniteCourante);
-        uniteCourante = analyseurLexical.next();
-        return idf;
+
+        if (TDS.getInstance().identifier(new Entree(uniteCourante)).getType().equals("tableau")) {
+            AccesTableau aTableau = new AccesTableau(uniteCourante);
+            uniteCourante = analyseurLexical.next();
+            analyseTerminal("[");
+
+            Expression exp = analyseExpression();
+            aTableau.setIndex(exp);
+
+            analyseTerminal("]");
+            return aTableau;
+        } else {
+            Idf idf = new Idf(uniteCourante);
+            uniteCourante = analyseurLexical.next();
+            return idf;
+        }
     }
 
     /**
@@ -229,9 +245,21 @@ public class AnalyseurSyntaxique {
             uniteCourante = analyseurLexical.next();
             return new Nombre(entier);
         } catch (NumberFormatException e) {
-            Idf idf = new Idf(uniteCourante);
-            uniteCourante = analyseurLexical.next();
-            return idf;
+            if (TDS.getInstance().identifier(new Entree(uniteCourante)).getType().equals("tableau")) {
+                AccesTableau aTableau = new AccesTableau(uniteCourante);
+                uniteCourante = analyseurLexical.next();
+                analyseTerminal("[");
+
+                Expression exp = analyseExpression();
+                aTableau.setIndex(exp);
+
+                analyseTerminal("]");
+                return aTableau;
+            } else {
+                Idf idf = new Idf(uniteCourante);
+                uniteCourante = analyseurLexical.next();
+                return idf;
+            }
         }
     }
 

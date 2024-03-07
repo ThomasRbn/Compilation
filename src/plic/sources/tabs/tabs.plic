@@ -3,4 +3,7 @@ programme toto {
     entier i ;
 
     i := 0 ;
+    thomas [ 2 ] := 3 ;
+    thomas [ 1 ] := thomas [ 2 ] ;
+    thomas [ 0 ] := thomas [ thomas [ 1 ] ] ;
 }

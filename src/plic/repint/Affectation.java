@@ -4,11 +4,11 @@ import plic.exceptions.DeclarManquanteException;
 
 public class Affectation extends Instruction {
 
-    private Idf idf;
+    private Acces acces;
     private Expression expression;
 
-    public Affectation(Idf idf, Expression expression) {
-        this.idf = idf;
+    public Affectation(Acces idf, Expression expression) {
+        this.acces = idf;
         this.expression = expression;
     }
 
@@ -17,19 +17,19 @@ public class Affectation extends Instruction {
     }
 
     public String toString() {
-        return idf + " := " + expression + " ;";
+        return acces + " := " + expression + " ;";
     }
 
     @Override
     public void verifier() throws DeclarManquanteException {
-        idf.verifier();
+        acces.verifier();
         expression.verifier();
     }
 
     @Override
     public String toMIPS() {
-        return "\t# Affectation de " + expression + " à " + idf.getNom() + "\n"
+        return "\t# Affectation de " + expression + " à " + acces.getNom() + "\n"
                 + expression.toMIPS()
-                + "\tsw $v0, " + TDS.getInstance().identifier(new Entree(idf.getNom())).getDeplacement() + "($s7)\n\n";
+                + "\tsw $v0, " + TDS.getInstance().identifier(new Entree(acces.getNom())).getDeplacement() + "($s7)\n\n";
     }
 }

@@ -2,15 +2,10 @@ package plic.repint;
 
 import plic.exceptions.DeclarManquanteException;
 
-public class Idf extends Expression {
-    private String nom;
+public class Idf extends Acces {
 
     public Idf(String nom) {
-        this.nom = nom;
-    }
-
-    public String getNom() {
-        return nom;
+        super(nom, "entier");
     }
 
     public String toString() {
