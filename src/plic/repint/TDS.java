@@ -8,7 +8,7 @@ public class TDS {
 
     private static TDS instance;
     private int cplDecl;
-    private Map<Entree, Symbole> table;
+    private Map<Entree, SymboleEntier> table;
 
     private TDS() {
         cplDecl = 0;
@@ -26,7 +26,7 @@ public class TDS {
         instance = new TDS();
     }
 
-    public void ajouter(Entree e, Symbole s) throws DoubleDeclarationException {
+    public void ajouter(Entree e, SymboleEntier s) throws DoubleDeclarationException {
         if (table.containsKey(e))
             throw new DoubleDeclarationException("ERREUR: identifiant " + e.getIdf() + " déjà déclaré");
 
@@ -40,7 +40,7 @@ public class TDS {
         return cplDecl;
     }
 
-    public Symbole identifier(Entree e) {
+    public SymboleEntier identifier(Entree e) {
         return table.get(e);
     }
 
@@ -56,7 +56,7 @@ public class TDS {
     @Override
     public String toString() {
         String res = "TDS {\n";
-        for (Map.Entry<Entree, Symbole> e : table.entrySet()) {
+        for (Map.Entry<Entree, SymboleEntier> e : table.entrySet()) {
             res += e.getKey() + " => " + e.getValue() + "\n";
         }
         res += "}";

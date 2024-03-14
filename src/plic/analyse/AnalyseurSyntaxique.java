@@ -117,17 +117,16 @@ public class AnalyseurSyntaxique {
             uniteCourante = analyseurLexical.next();
 
             analyseTerminal("]");
-            System.out.println("uniteCourante : " + uniteCourante + " type : " + type + " taille : " + taille);
 
             if (!estIdf()) // Identifiant
                 throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
-            TDS.getInstance().ajouter(new Entree(uniteCourante), new Tableau(type, TDS.getInstance().getCplDecl(), taille));
+            TDS.getInstance().ajouter(new Entree(uniteCourante), new SymboleTableau(type, TDS.getInstance().getCplDecl(), taille));
             uniteCourante = analyseurLexical.next();
 
         } else {
             if (!estIdf()) // Identifiant
                 throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
-            TDS.getInstance().ajouter(new Entree(uniteCourante), new Symbole(type, TDS.getInstance().getCplDecl()));
+            TDS.getInstance().ajouter(new Entree(uniteCourante), new SymboleEntier(type, TDS.getInstance().getCplDecl()));
             uniteCourante = analyseurLexical.next();
         }
 
@@ -191,10 +190,7 @@ public class AnalyseurSyntaxique {
 
         analyseTerminal(";");
 
-        Affectation affectation = new Affectation(acces, exp);
-        System.out.println(affectation);
-
-        return affectation;
+        return new Affectation(acces, exp);
     }
 
     /**

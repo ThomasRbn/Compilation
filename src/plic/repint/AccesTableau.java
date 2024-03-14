@@ -16,4 +16,8 @@ public class AccesTableau extends Acces{
         return nom + "[" + index + "]";
     }
 
+    public String toMIPS() {
+
+    }
+
 }

@@ -1,11 +1,11 @@
 package plic.repint;
 
-public class Symbole {
+public class SymboleEntier {
 
     protected String type;
     protected int deplacement;
 
-    public Symbole(String type, int deplacement) {
+    public SymboleEntier(String type, int deplacement) {
         this.type = type;
         this.deplacement = deplacement;
     }
@@ -18,9 +18,14 @@ public class Symbole {
         return deplacement;
     }
 
-    public Symbole setDeplacement(int deplacement) {
+    public SymboleEntier setDeplacement(int deplacement) {
         this.deplacement = deplacement;
         return this;
+    }
+
+    public int nouveauDep(int deplacement) {
+        deplacement -= 4;
+        return deplacement;
     }
 
     @Override

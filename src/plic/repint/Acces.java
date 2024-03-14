@@ -28,6 +28,6 @@ public class Acces extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n";
     }
 }
