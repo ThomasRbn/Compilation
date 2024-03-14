@@ -32,7 +32,7 @@ public class TDS {
 
         s.setDeplacement(cplDecl);
         table.put(e, s);
-        cplDecl -= 4;
+        cplDecl = s.nouveauDep(cplDecl);
 //        System.out.println(e + " => " + s);
     }
 

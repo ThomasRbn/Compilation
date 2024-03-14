@@ -23,11 +23,14 @@ public class Acces extends Expression {
 
     @Override
     public void verifier() throws DeclarManquanteException {
-
+        if (TDS.getInstance().identifier(new Entree(nom)) == null)
+            throw new DeclarManquanteException("Variable " + nom + " non déclarée");
     }
 
     @Override
     public String toMIPS() {
-        return "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n";
+        //Retrouver la variable
+        return "\tAccès à la variable " + nom + "\n"
+                + "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n\n";
     }
 }

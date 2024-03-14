@@ -4,22 +4,16 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -12
+	add $sp, $sp, -16
 
-	# Affectation de 1 à T
-	li $v0, 1
-	sw $v0, -8($s7)
+# Affectation de 3 à thomas
+li $v0, 3          # Charge la valeur 3 dans $v0
+sw $v0, 4($s7)     # Stocke la valeur de $v0 à l'adresse de thomas + 4 ($s7 + 4)
 
-	# Ecrire T
-	lw $v0, -8($s7)
-	move $a0, $v0
-	li $v0, 1
-	syscall
-
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
+# Accès à l'index 1 du tableau thomas
+li $v0, 1          # Charge l'indice 1 dans $v0
+mul $a0, $v0, 4    # Multiplie l'indice par la taille d'un élément du tableau (4 bytes)
+lw $a0, 4($s7)     # Charge la valeur de thomas[$v0] dans $a0
 
 end:
 	li $v0, 10

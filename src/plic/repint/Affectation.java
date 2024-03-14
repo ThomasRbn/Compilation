@@ -29,7 +29,8 @@ public class Affectation extends Instruction {
     @Override
     public String toMIPS() {
         return "\t# Affectation de " + expression + " à " + acces.getNom() + "\n"
-                + expression.toMIPS()
-                + "\tsw $v0, " + TDS.getInstance().identifier(new Entree(acces.getNom())).getDeplacement() + "($s7)\n\n";
+                + acces.toMIPS() +
+                expression.toMIPS() +
+                "\tsw $v0, " + TDS.getInstance().identifier(new Entree(acces.getNom())).getDeplacement() + "($s7)\n\n";
     }
 }

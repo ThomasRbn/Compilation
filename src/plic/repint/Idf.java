@@ -11,10 +11,4 @@ public class Idf extends Acces {
     public String toString() {
         return nom;
     }
-
-    public void verifier() throws DeclarManquanteException {
-        if (TDS.getInstance().identifier(new Entree(nom)) == null)
-            throw new DeclarManquanteException("Variable " + nom + " non déclarée");
-    }
-
 }

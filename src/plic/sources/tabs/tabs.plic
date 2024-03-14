@@ -1,9 +1,8 @@
 programme toto {
-    tableau [ 3 ] thomas ;
     entier i ;
+    tableau [ 3 ] thomas ;
 
-    i := 0 ;
-    thomas [ 2 ] := 3 ;
-    thomas [ 1 ] := thomas [ 2 ] ;
-    thomas [ 0 ] := thomas [ thomas [ 1 ] ] ;
+    i := 1 ;
+    //thomas [ 2 ] := 4 ;
+    thomas [ 1 ] := 3 ;
 }

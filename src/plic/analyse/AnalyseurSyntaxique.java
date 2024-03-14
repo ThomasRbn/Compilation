@@ -202,20 +202,18 @@ public class AnalyseurSyntaxique {
         if (!estIdf()) // Identifiant
             throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
 
-        if (TDS.getInstance().identifier(new Entree(uniteCourante)).getType().equals("tableau")) {
-            AccesTableau aTableau = new AccesTableau(uniteCourante);
-            uniteCourante = analyseurLexical.next();
-            analyseTerminal("[");
+        String nom = uniteCourante;
+        uniteCourante = analyseurLexical.next();
 
+        if (uniteCourante.equals("[")) {
+            uniteCourante = analyseurLexical.next();
+            AccesTableau aTableau = new AccesTableau(nom);
             Expression exp = analyseExpression();
             aTableau.setIndex(exp);
-
             analyseTerminal("]");
             return aTableau;
         } else {
-            Idf idf = new Idf(uniteCourante);
-            uniteCourante = analyseurLexical.next();
-            return idf;
+            return new Idf(nom);
         }
     }
 
