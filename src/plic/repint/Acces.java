@@ -30,7 +30,7 @@ public class Acces extends Expression {
     @Override
     public String toMIPS() {
         //Retrouver la variable
-        return "\tAccès à la variable " + nom + "\n"
-                + "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n\n";
+        return "\t# Accès à la variable " + nom + "\n" +
+                "\tsw $v0, " + TDS.getInstance().identifier(new Entree(this.getNom())).getDeplacement() + "($s7)\n\n";
     }
 }

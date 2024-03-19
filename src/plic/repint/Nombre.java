@@ -21,7 +21,7 @@ public class Nombre extends Expression {
     }
 
     public String toMIPS() {
-        return "\tli $v0, " + val + "\n";
+        return "\tli $v0, " + val + "\n\n";
     }
 
 }

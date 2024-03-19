@@ -3,6 +3,7 @@ programme toto {
     tableau [ 3 ] thomas ;
 
     i := 1 ;
-    //thomas [ 2 ] := 4 ;
+    thomas [ 0 ] := 2 ;
+    thomas [ 2 ] := 4 ;
     thomas [ 1 ] := 3 ;
 }

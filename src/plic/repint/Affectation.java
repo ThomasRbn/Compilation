@@ -12,6 +12,24 @@ public class Affectation extends Instruction {
         this.expression = expression;
     }
 
+    public String empiler() {
+        return """
+                \t# Empilage de $v0
+                \tmove $sp, $v0
+                \tadd $sp, $sp, -4
+
+                """;
+    }
+
+    public String depiler() {
+        return """
+                \t# Dépilage
+                \tadd $sp, $sp, 4
+                \tmove $v0, $sp
+                                
+                """;
+    }
+
     public Expression getExpression() {
         return expression;
     }
@@ -28,9 +46,8 @@ public class Affectation extends Instruction {
 
     @Override
     public String toMIPS() {
-        return "\t# Affectation de " + expression + " à " + acces.getNom() + "\n"
-                + acces.toMIPS() +
+        return "\t# Affectation de " + expression + " à " + acces.getNom() + "\n" +
                 expression.toMIPS() +
-                "\tsw $v0, " + TDS.getInstance().identifier(new Entree(acces.getNom())).getDeplacement() + "($s7)\n\n";
+                acces.toMIPS();
     }
 }

@@ -234,25 +234,26 @@ public class AnalyseurSyntaxique {
     private Expression analyseOperande() throws SyntaxiqueException {
         if (!estIdf() && !uniteCourante.matches("[0-9]+")) // Identifiant ou entier
             throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + uniteCourante + " trouvé");
+
         try {
             int entier = Integer.parseInt(uniteCourante);
             uniteCourante = analyseurLexical.next();
             return new Nombre(entier);
         } catch (NumberFormatException e) {
-            if (TDS.getInstance().identifier(new Entree(uniteCourante)).getType().equals("tableau")) {
-                AccesTableau aTableau = new AccesTableau(uniteCourante);
-                uniteCourante = analyseurLexical.next();
-                analyseTerminal("[");
+            System.out.println(uniteCourante);
+            String nom = uniteCourante;
+            uniteCourante = analyseurLexical.next();
+            System.out.println(uniteCourante);
 
+            if (uniteCourante.equals("[")) {
+                uniteCourante = analyseurLexical.next();
+                AccesTableau aTableau = new AccesTableau(nom);
                 Expression exp = analyseExpression();
                 aTableau.setIndex(exp);
-
                 analyseTerminal("]");
                 return aTableau;
             } else {
-                Idf idf = new Idf(uniteCourante);
-                uniteCourante = analyseurLexical.next();
-                return idf;
+                return new Idf(nom);
             }
         }
     }

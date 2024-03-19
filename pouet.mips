@@ -6,14 +6,35 @@ main:
 	move $s7, $sp
 	add $sp, $sp, -16
 
-# Affectation de 3 à thomas
-li $v0, 3          # Charge la valeur 3 dans $v0
-sw $v0, 4($s7)     # Stocke la valeur de $v0 à l'adresse de thomas + 4 ($s7 + 4)
+	# Affectation de 1 à i
+	li $v0, 1
 
-# Accès à l'index 1 du tableau thomas
-li $v0, 1          # Charge l'indice 1 dans $v0
-mul $a0, $v0, 4    # Multiplie l'indice par la taille d'un élément du tableau (4 bytes)
-lw $a0, 4($s7)     # Charge la valeur de thomas[$v0] dans $a0
+	# Accès à la variable i
+	sw $v0, 0($s7)
+
+	# Affectation de 2 à thomas
+	li $v0, 2
+
+	# Accès à la case 0 du tableau thomas
+	li $a0, -4
+	sub $a0, $s7, $a0
+	sw $v0, 0($a0)
+
+	# Affectation de 4 à thomas
+	li $v0, 4
+
+	# Accès à la case 2 du tableau thomas
+	li $a0, -12
+	sub $a0, $s7, $a0
+	sw $v0, 0($a0)
+
+	# Affectation de 3 à thomas
+	li $v0, 3
+
+	# Accès à la case 1 du tableau thomas
+	li $a0, -8
+	sub $a0, $s7, $a0
+	sw $v0, 0($a0)
 
 end:
 	li $v0, 10
