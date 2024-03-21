@@ -1,0 +1,6 @@
+programme toto {
+    ecrire 0 ou 0 ; // 0
+    ecrire 0 ou 1 ; // 1
+    ecrire 1 ou 0 ; // 1
+    ecrire 1 ou 1 ; // 1
+}

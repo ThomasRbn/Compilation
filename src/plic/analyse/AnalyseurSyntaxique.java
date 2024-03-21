@@ -253,6 +253,8 @@ public class AnalyseurSyntaxique {
                     return new Produit(e1, e2);
                 case "et":
                     return new Et(e1, e2);
+                case "ou":
+                    return new Ou(e1, e2);
             }
         }
         return e1;

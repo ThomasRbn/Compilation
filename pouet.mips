@@ -6,8 +6,8 @@ main:
 	move $s7, $sp
 	add $sp, $sp, -0
 
-	# Ecrire 0 && 0
-	# ET
+	# Ecrire 0||0
+	# OU
 	# Evaluation de l'opérande gauche
 	li $v0, 0
 
@@ -22,8 +22,8 @@ main:
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# ET
-	and $v0, $v1, $v0
+	# OU
+	or $v0, $v1, $v0
 	move $a0, $v0
 	li $v0, 1
 	syscall
@@ -33,8 +33,8 @@ main:
 	li $v0, 4
 	syscall
 
-	# Ecrire 0 && 1
-	# ET
+	# Ecrire 0||1
+	# OU
 	# Evaluation de l'opérande gauche
 	li $v0, 0
 
@@ -49,8 +49,8 @@ main:
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# ET
-	and $v0, $v1, $v0
+	# OU
+	or $v0, $v1, $v0
 	move $a0, $v0
 	li $v0, 1
 	syscall
@@ -60,8 +60,8 @@ main:
 	li $v0, 4
 	syscall
 
-	# Ecrire 1 && 0
-	# ET
+	# Ecrire 1||0
+	# OU
 	# Evaluation de l'opérande gauche
 	li $v0, 1
 
@@ -76,8 +76,8 @@ main:
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# ET
-	and $v0, $v1, $v0
+	# OU
+	or $v0, $v1, $v0
 	move $a0, $v0
 	li $v0, 1
 	syscall
@@ -87,8 +87,8 @@ main:
 	li $v0, 4
 	syscall
 
-	# Ecrire 1 && 1
-	# ET
+	# Ecrire 1||1
+	# OU
 	# Evaluation de l'opérande gauche
 	li $v0, 1
 
@@ -103,8 +103,8 @@ main:
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# ET
-	and $v0, $v1, $v0
+	# OU
+	or $v0, $v1, $v0
 	move $a0, $v0
 	li $v0, 1
 	syscall
