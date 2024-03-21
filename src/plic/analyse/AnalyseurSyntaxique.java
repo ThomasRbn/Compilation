@@ -52,7 +52,14 @@ public class AnalyseurSyntaxique {
             add("+");
             add("-");
             add("*");
-            add("/");
+            add("et");
+            add("ou");
+            add("<");
+            add(">");
+            add("<=");
+            add(">=");
+            add("=");
+            add("#");
         }};
 
         motsCles.addAll(motsES);
@@ -244,8 +251,8 @@ public class AnalyseurSyntaxique {
                     return new Soustraction(e1, e2);
                 case "*":
                     return new Produit(e1, e2);
-//                case "/":
-//                    return new Division(e1, e2);
+                case "et":
+                    return new Et(e1, e2);
             }
         }
         return e1;
