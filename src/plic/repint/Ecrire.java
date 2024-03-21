@@ -29,10 +29,10 @@ public class Ecrire extends Instruction {
                 + expression.toMIPS()
                 + "\tmove $a0, $v0\n"
                 + "\tli $v0, 1\n"
-                + "\tsyscall\n\n"
+                + "\tsyscall\n"
                 + "\t# Saut de ligne\n"
                 + "\tla $a0, crlf\n"
                 + "\tli $v0, 4\n"
-                + "\tsyscall\n\n";
+                + "\tsyscall\n";
     }
 }

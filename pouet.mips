@@ -4,115 +4,31 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -0
-
-	# Ecrire (1 == 1)
-	# Egal
-	# Evaluation de l'opérande gauche
+	add $sp, $sp, -16
+# Affectation de 1 à i
 	li $v0, 1
+	sw $v0, 0($s7)
 
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
+# Affectation de 2 à thomas[0]
 
-	# Evaluation de l'opérande droite
-	li $v0, 1
+	# Chargement de la nouvelle valeur 0 dans $v0
+	li $v0, 2
+	# Sauvegarde de 2 dans thomas[0]
+	sw $v0, -4($s7)
 
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
+# Affectation de 3 à thomas[1]
 
-	# Egal
-	seq $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
+	# Chargement de la nouvelle valeur 1 dans $v0
+	li $v0, 3
+	# Sauvegarde de 3 dans thomas[1]
+	sw $v0, -8($s7)
 
-	# Saut de ligne
-	la $a0, crlf
+# Affectation de 4 à thomas[2]
+
+	# Chargement de la nouvelle valeur 2 dans $v0
 	li $v0, 4
-	syscall
-
-	# Ecrire (1 == 0)
-	# Egal
-	# Evaluation de l'opérande gauche
-	li $v0, 1
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Egal
-	seq $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-	# Ecrire (1 != 0)
-	# Different
-	# Evaluation de l'opérande gauche
-	li $v0, 1
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-	# Ecrire (1 != 1)
-	# Different
-	# Evaluation de l'opérande gauche
-	li $v0, 1
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 1
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
+	# Sauvegarde de 4 dans thomas[2]
+	sw $v0, -12($s7)
 
 end:
 	li $v0, 10

@@ -8,19 +8,19 @@ public abstract class Expression {
 
     public abstract void verifier() throws DeclarManquanteException;
 
-    public String empiler() {
+    public static String empiler() {
         return """
+                \n\t# Empilement
                 \tsw $v0, 0($sp)
                 \taddi $sp, $sp, -4
-                
                 """;
     }
 
-    public String depiler() {
+    public static String depiler() {
         return """
+                \n\t# Dépilement
                 \taddi $sp, $sp, 4
                 \tlw $v1, 0($sp)
-                
                 """;
     }
 

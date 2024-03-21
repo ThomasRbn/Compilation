@@ -2,7 +2,12 @@ programme toto {
     entier i ;
     tableau [ 3 ] thomas ;
 
-    thomas [ 1 ] := 2 ;
-    //thomas [ thomas [ 1 ] ] := 3 ; // thomas [ 2 ] := 3 ;
-    ecrire thomas [ 1 ] ;
+    i := 1 ;
+    //ecrire i ;
+    thomas [ 0 ] := 2 ;
+    //ecrire thomas [ 1 ] ;
+    thomas [ 1 ] := 3 ;
+    //ecrire thomas [ 2 ] ;
+    thomas [ 2 ] := 4 ;
+    //ecrire thomas [ 3 ] ;
 }

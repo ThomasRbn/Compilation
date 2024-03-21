@@ -46,6 +46,7 @@ public class Bloc {
             res += i.toMIPS();
         }
         res += """
+                
                 end:
                 \tli $v0, 10
                 \tsyscall""";

@@ -48,8 +48,6 @@ public class TDS {
         return """
                 \tmove $s7, $sp
                 \tadd $sp, $sp, -""" + -cplDecl + """
-                
-                
                 """;
     }
 

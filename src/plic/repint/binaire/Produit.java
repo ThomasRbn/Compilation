@@ -20,8 +20,7 @@ public class Produit extends Binaire {
                 \t# Dépilement de l'opérande gauche
                 """ + depiler() + """
                 \t# Produit
-                \tmult $v1, $v0
-                \tmflo $v0
+                \tmul $v0, $v1, $v0
                 """;
     }
 
