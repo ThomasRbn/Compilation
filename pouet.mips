@@ -4,37 +4,71 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -16
+	add $sp, $sp, -12
 
-	# Affectation de 1 à i
+	# Affectation de (1 + 2) à i
+	# Somme
+	# Evaluation de l'opérande gauche
 	li $v0, 1
 
-	# Accès à la variable i
-	sw $v0, 0($s7)
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
 
-	# Affectation de 2 à thomas
+	# Evaluation de l'opérande droite
 	li $v0, 2
 
-	# Accès à la case 0 du tableau thomas
-	li $a0, -4
-	sub $a0, $s7, $a0
-	sw $v0, 0($a0)
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
 
-	# Affectation de 4 à thomas
+	# Addition
+	add $v0, $v1, $v0
+	sw $v0, 0($s7)
+
+	# Ecrire i
+	# Accès à la variable i
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+
+	# Saut de ligne
+	la $a0, crlf
 	li $v0, 4
+	syscall
 
-	# Accès à la case 2 du tableau thomas
-	li $a0, -12
-	sub $a0, $s7, $a0
-	sw $v0, 0($a0)
+	# Affectation de (i + 3) à j
+	# Somme
+	# Evaluation de l'opérande gauche
+	# Accès à la variable i
+	lw $v0, 0($s7)
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
 
-	# Affectation de 3 à thomas
+	# Evaluation de l'opérande droite
 	li $v0, 3
 
-	# Accès à la case 1 du tableau thomas
-	li $a0, -8
-	sub $a0, $s7, $a0
-	sw $v0, 0($a0)
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Addition
+	add $v0, $v1, $v0
+	sw $v0, -4($s7)
+
+	# Ecrire j
+	# Accès à la variable j
+	lw $v0, -4($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
 
 end:
 	li $v0, 10

@@ -8,5 +8,21 @@ public abstract class Expression {
 
     public abstract void verifier() throws DeclarManquanteException;
 
+    public String empiler() {
+        return """
+                \tsw $v0, 0($sp)
+                \taddi $sp, $sp, -4
+                
+                """;
+    }
+
+    public String depiler() {
+        return """
+                \taddi $sp, $sp, 4
+                \tlw $v1, 0($sp)
+                
+                """;
+    }
+
     public abstract String toMIPS();
 }

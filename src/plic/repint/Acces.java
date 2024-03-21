@@ -31,6 +31,6 @@ public class Acces extends Expression {
     public String toMIPS() {
         //Retrouver la variable
         return "\t# Accès à la variable " + nom + "\n" +
-                "\tsw $v0, " + TDS.getInstance().identifier(new Entree(this.getNom())).getDeplacement() + "($s7)\n\n";
+                "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n";
     }
 }

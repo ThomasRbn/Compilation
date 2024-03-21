@@ -26,6 +26,8 @@ public class AnalyseurSyntaxique {
      */
     private List<String> motsES;
 
+    private List<String> motsBinaires;
+
     private AnalyseurLexical analyseurLexical;
     private String uniteCourante;
 
@@ -44,6 +46,13 @@ public class AnalyseurSyntaxique {
 
         motsES = new ArrayList<>() {{
             add("ecrire");
+        }};
+
+        motsBinaires = new ArrayList<>() {{
+            add("+");
+//            add("-");
+//            add("*");
+//            add("/");
         }};
 
         motsCles.addAll(motsES);
@@ -223,7 +232,23 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseExpression() throws SyntaxiqueException {
-        return analyseOperande();
+        Expression e1 =  analyseOperande();
+        if (motsBinaires.contains(uniteCourante)) {
+            String op = uniteCourante;
+            uniteCourante = analyseurLexical.next();
+            Expression e2 = analyseOperande();
+            switch (op) {
+                case "+":
+                    return new Somme(e1, e2);
+//                case "-":
+//                    return new Soustraction(e1, e2);
+//                case "*":
+//                    return new Multiplication(e1, e2);
+//                case "/":
+//                    return new Division(e1, e2);
+            }
+        }
+        return e1;
     }
 
     /**
@@ -240,10 +265,8 @@ public class AnalyseurSyntaxique {
             uniteCourante = analyseurLexical.next();
             return new Nombre(entier);
         } catch (NumberFormatException e) {
-            System.out.println(uniteCourante);
             String nom = uniteCourante;
             uniteCourante = analyseurLexical.next();
-            System.out.println(uniteCourante);
 
             if (uniteCourante.equals("[")) {
                 uniteCourante = analyseurLexical.next();

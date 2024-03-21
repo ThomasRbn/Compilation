@@ -1,0 +1,12 @@
+programme toto {
+    entier i ;
+    entier j ;
+    entier k ;
+
+    i := 1 + 2 ;
+    ecrire i ; // 3
+    j := 3 + 4 ;
+    ecrire j ; // 7
+    k := i + j ;
+    ecrire k ; // 10
+}

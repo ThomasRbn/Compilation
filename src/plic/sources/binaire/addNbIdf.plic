@@ -1,0 +1,10 @@
+programme toto {
+    entier i ;
+    entier j ;
+    entier k ;
+
+    i := 1 + 2 ;
+    ecrire i ; // Doit afficher 3
+    j := i + 3 ;
+    ecrire j ; // Doit afficher 6
+}
