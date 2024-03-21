@@ -3,14 +3,7 @@ package plic.analyse;
 import plic.exceptions.DoubleDeclarationException;
 import plic.exceptions.SyntaxiqueException;
 import plic.repint.*;
-import plic.repint.binaire.Ou;
-import plic.repint.binaire.Produit;
-import plic.repint.binaire.Somme;
-import plic.repint.binaire.Soustraction;
-import plic.repint.binaire.Inferieur;
-import plic.repint.binaire.InferieurEgal;
-import plic.repint.binaire.Superieur;
-import plic.repint.binaire.SuperieurEgal;
+import plic.repint.binaire.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -247,31 +240,25 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseExpression() throws SyntaxiqueException {
-        Expression e1 =  analyseOperande();
+        Expression e1 = analyseOperande();
         if (motsBinaires.contains(uniteCourante)) {
             String op = uniteCourante;
             uniteCourante = analyseurLexical.next();
             Expression e2 = analyseOperande();
-            switch (op) {
-                case "+":
-                    return new Somme(e1, e2);
-                case "-":
-                    return new Soustraction(e1, e2);
-                case "*":
-                    return new Produit(e1, e2);
-                case "et":
-                    return new Et(e1, e2);
-                case "ou":
-                    return new Ou(e1, e2);
-                case "<":
-                    return new Inferieur(e1, e2);
-                case ">":
-                    return new Superieur(e1, e2);
-                case "<=":
-                    return new InferieurEgal(e1, e2);
-                case ">=":
-                    return new SuperieurEgal(e1, e2);
-            }
+            return switch (op) {
+                case "+" -> new Somme(e1, e2);
+                case "-" -> new Soustraction(e1, e2);
+                case "*" -> new Produit(e1, e2);
+                case "et" -> new Et(e1, e2);
+                case "ou" -> new Ou(e1, e2);
+                case "<" -> new Inferieur(e1, e2);
+                case ">" -> new Superieur(e1, e2);
+                case "<=" -> new InferieurEgal(e1, e2);
+                case ">=" -> new SuperieurEgal(e1, e2);
+                case "=" -> new Egal(e1, e2);
+                case "#" -> new Different(e1, e2);
+                default -> throw new IllegalStateException("Unexpected value: " + op);
+            };
         }
         return e1;
     }
