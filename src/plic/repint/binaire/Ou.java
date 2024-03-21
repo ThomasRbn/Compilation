@@ -1,14 +1,17 @@
-package plic.repint;
+package plic.repint.binaire;
 
-public class Produit extends Binaire {
-    public Produit(Expression gauche, Expression droite) {
-        super(gauche, droite);
+import plic.repint.Expression;
+
+public class Ou extends Binaire{
+
+    public Ou(Expression exp1, Expression exp2) {
+        super(exp1, exp2);
     }
 
     @Override
     public String toMIPS() {
         return """
-                \t# Produit
+                \t# OU
                 \t# Evaluation de l'opérande gauche
                 """ + gauche.toMIPS() + """
                 \t# Empilement de l'opérande gauche
@@ -17,14 +20,18 @@ public class Produit extends Binaire {
                 """ + droite.toMIPS() + """
                 \t# Dépilement de l'opérande gauche
                 """ + depiler() + """
-                \t# Produit
-                \tmult $v1, $v0
-                \tmflo $v0
+                \t# OU
+                \tor $v0, $v1, $v0
                 """;
     }
 
     @Override
+    public String getType() {
+        return "boolean";
+    }
+
+    @Override
     public String toString() {
-        return "(" + gauche + " * " + droite + ")";
+        return gauche + "||" + droite;
     }
 }

@@ -3,6 +3,14 @@ package plic.analyse;
 import plic.exceptions.DoubleDeclarationException;
 import plic.exceptions.SyntaxiqueException;
 import plic.repint.*;
+import plic.repint.binaire.Ou;
+import plic.repint.binaire.Produit;
+import plic.repint.binaire.Somme;
+import plic.repint.binaire.Soustraction;
+import plic.repint.binaire.Inferieur;
+import plic.repint.binaire.InferieurEgal;
+import plic.repint.binaire.Superieur;
+import plic.repint.binaire.SuperieurEgal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -255,6 +263,14 @@ public class AnalyseurSyntaxique {
                     return new Et(e1, e2);
                 case "ou":
                     return new Ou(e1, e2);
+                case "<":
+                    return new Inferieur(e1, e2);
+                case ">":
+                    return new Superieur(e1, e2);
+                case "<=":
+                    return new InferieurEgal(e1, e2);
+                case ">=":
+                    return new SuperieurEgal(e1, e2);
             }
         }
         return e1;

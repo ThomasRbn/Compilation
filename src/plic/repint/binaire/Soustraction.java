@@ -1,4 +1,6 @@
-package plic.repint;
+package plic.repint.binaire;
+
+import plic.repint.Expression;
 
 public class Soustraction extends Binaire {
     public Soustraction(Expression gauche, Expression droite) {

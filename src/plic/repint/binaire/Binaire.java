@@ -1,6 +1,7 @@
-package plic.repint;
+package plic.repint.binaire;
 
 import plic.exceptions.DeclarManquanteException;
+import plic.repint.Expression;
 
 public abstract class Binaire extends Expression {
 
@@ -20,6 +21,7 @@ public abstract class Binaire extends Expression {
     @Override
     public void verifier() throws DeclarManquanteException {
         gauche.verifier();
+        //Todo vérifier le type
         droite.verifier();
     }
 

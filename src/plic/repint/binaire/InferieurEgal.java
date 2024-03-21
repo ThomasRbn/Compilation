@@ -1,15 +1,17 @@
-package plic.repint;
+package plic.repint.binaire;
 
-public class Somme extends Binaire {
-    public Somme(Expression gauche, Expression droite) {
-        super(gauche, droite);
+import plic.repint.Expression;
+
+public class InferieurEgal extends Binaire {
+
+    public InferieurEgal(Expression exp1, Expression exp2) {
+        super(exp1, exp2);
     }
-
 
     @Override
     public String toMIPS() {
         return """
-                \t# Somme
+                \t# InferieurEgal
                 \t# Evaluation de l'opérande gauche
                 """ + gauche.toMIPS() + """
                 \t# Empilement de l'opérande gauche
@@ -18,14 +20,18 @@ public class Somme extends Binaire {
                 """ + droite.toMIPS() + """
                 \t# Dépilement de l'opérande gauche
                 """ + depiler() + """
-                \t# Addition
-                \tadd $v0, $v1, $v0
+                \t# InferieurEgal
+                \tsle $v0, $v1, $v0
                 """;
     }
 
     @Override
-    public String toString() {
-        return "(" + gauche + " + " + droite + ")";
+    public String getType() {
+        return "boolean";
     }
 
+    @Override
+    public String toString() {
+        return gauche + "<=" + droite;
+    }
 }

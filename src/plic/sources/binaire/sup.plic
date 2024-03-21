@@ -1,0 +1,7 @@
+programme toto {
+
+    ecrire 3 > 1 ; //1
+    ecrire 3 > 3 ; //0
+    ecrire 3 >= 1 ; //1
+    ecrire 3 >= 3 ; //1
+}

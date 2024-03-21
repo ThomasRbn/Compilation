@@ -1,15 +1,17 @@
-package plic.repint;
+package plic.repint.binaire;
 
-public class Ou extends Binaire{
+import plic.repint.Expression;
 
-    public Ou(Expression exp1, Expression exp2) {
+public class Inferieur extends Binaire {
+
+    public Inferieur(Expression exp1, Expression exp2) {
         super(exp1, exp2);
     }
 
     @Override
     public String toMIPS() {
         return """
-                \t# OU
+                \t# INF
                 \t# Evaluation de l'opérande gauche
                 """ + gauche.toMIPS() + """
                 \t# Empilement de l'opérande gauche
@@ -18,8 +20,8 @@ public class Ou extends Binaire{
                 """ + droite.toMIPS() + """
                 \t# Dépilement de l'opérande gauche
                 """ + depiler() + """
-                \t# OU
-                \tor $v0, $v1, $v0
+                \t# INF
+                \tslt $v0, $v1, $v0
                 """;
     }
 
@@ -30,6 +32,6 @@ public class Ou extends Binaire{
 
     @Override
     public String toString() {
-        return gauche + "||" + droite;
+        return gauche + "<" + droite;
     }
 }
