@@ -1,15 +1,14 @@
 package plic.repint;
 
-public class Somme extends Binaire {
-    public Somme(Expression gauche, Expression droite) {
+public class Soustraction extends Binaire {
+    public Soustraction(Expression gauche, Expression droite) {
         super(gauche, droite);
     }
-
 
     @Override
     public String toMIPS() {
         return """
-                \t# Somme
+                \t# Soustraction
                 \t# Evaluation de l'opérande gauche
                 """ + gauche.toMIPS() + """
                 \t# Empilement de l'opérande gauche
@@ -18,14 +17,14 @@ public class Somme extends Binaire {
                 """ + droite.toMIPS() + """
                 \t# Dépilement de l'opérande gauche
                 """ + depiler() + """
-                \t# Addition
-                \tadd $v0, $v1, $v0
+                \t# Soustraction
+                \tsub $v0, $v1, $v0
                 """;
     }
 
     @Override
     public String toString() {
-        return "(" + gauche + " + " + droite + ")";
+        return "(" + gauche + " - " + droite + ")";
     }
 
 }

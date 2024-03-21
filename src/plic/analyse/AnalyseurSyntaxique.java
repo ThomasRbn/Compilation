@@ -240,8 +240,8 @@ public class AnalyseurSyntaxique {
             switch (op) {
                 case "+":
                     return new Somme(e1, e2);
-//                case "-":
-//                    return new Soustraction(e1, e2);
+                case "-":
+                    return new Soustraction(e1, e2);
                 case "*":
                     return new Produit(e1, e2);
 //                case "/":
