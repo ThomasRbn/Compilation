@@ -1,7 +1,5 @@
 package plic.repint;
 
-import plic.exceptions.DeclarManquanteException;
-
 public class Idf extends Acces {
 
     public Idf(String nom) {
@@ -10,5 +8,12 @@ public class Idf extends Acces {
 
     public String toString() {
         return nom;
+    }
+
+    @Override
+    public String toMIPS() {
+        //Retrouver la variable
+        return "\t# Accès à la variable " + nom + "\n" +
+                "\tlw $v0, " + TDS.getInstance().identifier(new Entree(nom)).getDeplacement() + "($s7)\n";
     }
 }
