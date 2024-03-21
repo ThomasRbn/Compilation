@@ -1,0 +1,6 @@
+programme toto {
+    entier i ;
+
+    i := 3 * 2 ;
+    ecrire i ; // 6
+}

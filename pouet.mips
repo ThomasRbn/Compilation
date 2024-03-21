@@ -6,10 +6,10 @@ main:
 	move $s7, $sp
 	add $sp, $sp, -12
 
-	# Affectation de (1 + 2) à i
-	# Somme
+	# Affectation de (3 * 2) à i
+	# Produit
 	# Evaluation de l'opérande gauche
-	li $v0, 1
+	li $v0, 3
 
 	# Empilement de l'opérande gauche
 	sw $v0, 0($sp)
@@ -22,8 +22,9 @@ main:
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Addition
-	add $v0, $v1, $v0
+	# Produit
+	mult $v1, $v0
+	mflo $v0
 	sw $v0, 0($s7)
 
 	# Ecrire i
@@ -38,8 +39,8 @@ main:
 	li $v0, 4
 	syscall
 
-	# Affectation de (i + 3) à j
-	# Somme
+	# Affectation de (i * 2) à j
+	# Produit
 	# Evaluation de l'opérande gauche
 	# Accès à la variable i
 	lw $v0, 0($s7)
@@ -48,14 +49,15 @@ main:
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
-	li $v0, 3
+	li $v0, 2
 
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Addition
-	add $v0, $v1, $v0
+	# Produit
+	mult $v1, $v0
+	mflo $v0
 	sw $v0, -4($s7)
 
 	# Ecrire j

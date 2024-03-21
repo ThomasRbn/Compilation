@@ -50,9 +50,9 @@ public class AnalyseurSyntaxique {
 
         motsBinaires = new ArrayList<>() {{
             add("+");
-//            add("-");
-//            add("*");
-//            add("/");
+            add("-");
+            add("*");
+            add("/");
         }};
 
         motsCles.addAll(motsES);
@@ -242,8 +242,8 @@ public class AnalyseurSyntaxique {
                     return new Somme(e1, e2);
 //                case "-":
 //                    return new Soustraction(e1, e2);
-//                case "*":
-//                    return new Multiplication(e1, e2);
+                case "*":
+                    return new Produit(e1, e2);
 //                case "/":
 //                    return new Division(e1, e2);
             }
