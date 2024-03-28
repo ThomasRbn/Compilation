@@ -4,31 +4,29 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -16
-# Affectation de 1 à i
+	add $sp, $sp, -4
+# Affectation de 1 à a
 	li $v0, 1
 	sw $v0, 0($s7)
 
-# Affectation de 2 à thomas[0]
+# Affectation de -a à a
+	# Negatif
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	# Negatif
+	neg $v0, $v0
+	sw $v0, 0($s7)
 
-	# Chargement de la nouvelle valeur 0 dans $v0
-	li $v0, 2
-	# Sauvegarde de 2 dans thomas[0]
-	sw $v0, -4($s7)
-
-# Affectation de 3 à thomas[1]
-
-	# Chargement de la nouvelle valeur 1 dans $v0
-	li $v0, 3
-	# Sauvegarde de 3 dans thomas[1]
-	sw $v0, -8($s7)
-
-# Affectation de 4 à thomas[2]
-
-	# Chargement de la nouvelle valeur 2 dans $v0
+# Ecrire a
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
 	li $v0, 4
-	# Sauvegarde de 4 dans thomas[2]
-	sw $v0, -12($s7)
+	syscall
 
 end:
 	li $v0, 10

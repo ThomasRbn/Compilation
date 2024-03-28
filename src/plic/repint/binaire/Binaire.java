@@ -8,23 +8,35 @@ public abstract class Binaire extends Expression {
     protected Expression gauche;
     protected Expression droite;
 
-    public Binaire(Expression gauche, Expression droite) {
+    protected Binaire(Expression gauche, Expression droite) {
         this.gauche = gauche;
         this.droite = droite;
     }
 
     @Override
     public String getType() {
-        return "operation";
+        return "boolean";
     }
 
     @Override
     public void verifier() throws DeclarManquanteException {
         gauche.verifier();
-        //Todo vérifier le type
         droite.verifier();
     }
 
     @Override
-    public abstract String toMIPS();
+    public String toMIPS() {
+        return """
+                 \t# Evaluation de l'opérande gauche
+                """ + gauche.toMIPS() + """
+                                
+                \t# Empilement de l'opérande gauche
+                """ + empiler() + """
+                                
+                \t# Evaluation de l'opérande droite
+                """ + droite.toMIPS() + """
+                                
+                \t# Dépilement de l'opérande gauche
+                """ + depiler() + "\n";
+    }
 }

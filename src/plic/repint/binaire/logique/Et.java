@@ -1,20 +1,19 @@
-package plic.repint.binaire;
+package plic.repint.binaire.logique;
 
 import plic.repint.Expression;
 
-public class SuperieurEgal extends Binaire {
+public class Et extends Logique {
 
-    public SuperieurEgal(Expression exp1, Expression exp2) {
+    public Et(Expression exp1, Expression exp2) {
         super(exp1, exp2);
     }
 
     @Override
     public String toMIPS() {
         return """
-                \t# SUPEGAL
+                \t# ET
                 """ + super.toMIPS() + """
-                \t# SUPEGAL
-                \tsge $v0, $v1, $v0
+                \tand $v0, $v1, $v0
                 """;
     }
 
@@ -25,6 +24,6 @@ public class SuperieurEgal extends Binaire {
 
     @Override
     public String toString() {
-        return gauche + ">=" + droite;
+        return gauche + " && " + droite;
     }
 }

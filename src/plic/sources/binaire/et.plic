@@ -1,6 +1,13 @@
 programme toto {
-    ecrire 0 et 0 ; // 0
-    ecrire 0 et 1 ; // 0
-    ecrire 1 et 0 ; // 0
-    ecrire 1 et 1 ; // 1
+
+    entier a ;
+    entier b ;
+
+    a := 3 ;
+    b := 4 ;
+
+    ecrire ( a < b ) et ( a = b ) ; // FF
+    ecrire ( a < b ) et ( a > b ) ; // FV
+    ecrire ( b >= a ) et  ( b <= a ) ; // VF
+    ecrire ( a <= b ) et ( a # b ) ; // VV
 }

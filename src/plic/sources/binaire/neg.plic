@@ -1,0 +1,6 @@
+programme toto {
+    entier a ;
+    a := 1 ;
+    a := - ( a ) ;
+    ecrire a ;
+}

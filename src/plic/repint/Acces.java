@@ -24,6 +24,6 @@ public abstract class Acces extends Expression {
     @Override
     public void verifier() throws DeclarManquanteException {
         if (TDS.getInstance().identifier(new Entree(nom)) == null)
-            throw new DeclarManquanteException("Variable " + nom + " non déclarée");
+            throw new DeclarManquanteException("ERREUR: Variable " + nom + " non déclarée");
     }
 }

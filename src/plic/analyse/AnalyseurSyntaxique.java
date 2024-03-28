@@ -4,6 +4,10 @@ import plic.exceptions.DoubleDeclarationException;
 import plic.exceptions.SyntaxiqueException;
 import plic.repint.*;
 import plic.repint.binaire.*;
+import plic.repint.binaire.logique.Et;
+import plic.repint.binaire.logique.Ou;
+import plic.repint.unaire.Negatif;
+import plic.repint.unaire.Non;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +32,8 @@ public class AnalyseurSyntaxique {
     private List<String> motsES;
 
     private List<String> motsBinaires;
+
+    private List<String> motsUnaires;
 
     private AnalyseurLexical analyseurLexical;
     private String uniteCourante;
@@ -61,6 +67,11 @@ public class AnalyseurSyntaxique {
             add(">=");
             add("=");
             add("#");
+        }};
+
+        motsUnaires = new ArrayList<>() {{
+            add("-");
+            add("non");
         }};
 
         motsCles.addAll(motsES);
@@ -240,6 +251,16 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseExpression() throws SyntaxiqueException {
+        if (motsUnaires.contains(uniteCourante)) {
+            String op = uniteCourante;
+            uniteCourante = analyseurLexical.next();
+            Expression e = analyseExpression();
+            return switch (op) {
+                case "-" -> new Negatif(e);
+                case "non" -> new Non(e);
+                default -> throw new IllegalStateException("Unexpected value: " + op);
+            };
+        }
         Expression e1 = analyseOperande();
         if (motsBinaires.contains(uniteCourante)) {
             String op = uniteCourante;
@@ -269,7 +290,7 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseOperande() throws SyntaxiqueException {
-        if (!estIdf() && !uniteCourante.matches("[0-9]+")) // Identifiant ou entier
+        if (!estIdf() && !uniteCourante.matches("[0-9]+") && !uniteCourante.equals("(")) // Identifiant ou entier
             throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + uniteCourante + " trouvé");
 
         try {
@@ -277,6 +298,15 @@ public class AnalyseurSyntaxique {
             uniteCourante = analyseurLexical.next();
             return new Nombre(entier);
         } catch (NumberFormatException e) {
+
+            //gestion des parentheses
+            if (uniteCourante.equals("(")) {
+                uniteCourante = analyseurLexical.next();
+                Expression exp = analyseExpression();
+                analyseTerminal(")");
+                return exp;
+            }
+
             String nom = uniteCourante;
             uniteCourante = analyseurLexical.next();
 

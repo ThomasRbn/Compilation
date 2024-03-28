@@ -25,7 +25,7 @@ public class Ecrire extends Instruction {
 
     @Override
     public String toMIPS() {
-        return "\t# Ecrire " + expression + "\n"
+        return "\n# Ecrire " + expression + "\n"
                 + expression.toMIPS()
                 + "\tmove $a0, $v0\n"
                 + "\tli $v0, 1\n"

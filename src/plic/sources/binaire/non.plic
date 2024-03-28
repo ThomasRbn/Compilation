@@ -1,0 +1,7 @@
+programme test {
+    entier a ;
+
+    a := 5 ;
+    ecrire non ( a = 5 ) ; // false
+    ecrire non ( a = 6 ) ; // true
+}
