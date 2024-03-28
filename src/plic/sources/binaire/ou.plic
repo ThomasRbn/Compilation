@@ -6,7 +6,7 @@ programme toto {
     a := 3 ;
     b := 4 ;
 
-    ecrire ( a < b ) ou ( a = b ) ; // FF
+    ecrire ( a > b ) ou ( a = b ) ; // FF
     ecrire ( a < b ) ou ( a > b ) ; // FV
     ecrire ( b >= a ) ou  ( b <= a ) ; // VF
     ecrire ( a <= b ) ou ( a # b ) ; // VV
