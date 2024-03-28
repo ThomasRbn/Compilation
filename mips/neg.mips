@@ -1,0 +1,33 @@
+.data
+crlf: .asciiz "\n"
+
+.text
+main:
+	move $s7, $sp
+	add $sp, $sp, -4
+# Affectation de 1 à a
+	li $v0, 1
+	sw $v0, 0($s7)
+
+# Affectation de -a à a
+	# Negatif
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	# Negatif
+	neg $v0, $v0
+	sw $v0, 0($s7)
+
+# Ecrire a
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+end:
+	li $v0, 10
+	syscall

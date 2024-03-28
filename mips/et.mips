@@ -1,0 +1,259 @@
+.data
+crlf: .asciiz "\n"
+
+.text
+main:
+	move $s7, $sp
+	add $sp, $sp, -8
+# Affectation de 3 à a
+	li $v0, 3
+	sw $v0, 0($s7)
+
+# Affectation de 4 à b
+	li $v0, 4
+	sw $v0, -4($s7)
+
+# Ecrire a<b && (a == b)
+	# ET
+ 	# Evaluation de l'opérande gauche
+	# INF 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# INF
+	slt $v0, $v1, $v0
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Egal
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Egal
+	seq $v0, $v1, $v0
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	and $v0, $v1, $v0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+# Ecrire a<b && a>b
+	# ET
+ 	# Evaluation de l'opérande gauche
+	# INF 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# INF
+	slt $v0, $v1, $v0
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# SUP
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	sgt $v0, $v1, $v0
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	and $v0, $v1, $v0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+# Ecrire b>=a && b<=a
+	# ET
+ 	# Evaluation de l'opérande gauche
+	# SUPEGAL
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# SUPEGAL
+	sge $v0, $v1, $v0
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# InferieurEgal
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# InferieurEgal
+	sle $v0, $v1, $v0
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	and $v0, $v1, $v0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+# Ecrire a<=b && (a != b)
+	# ET
+ 	# Evaluation de l'opérande gauche
+	# InferieurEgal
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# InferieurEgal
+	sle $v0, $v1, $v0
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Different
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	# Accès à la variable b
+	lw $v0, -4($s7)
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Different
+	sne $v0, $v1, $v0
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	and $v0, $v1, $v0
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+end:
+	li $v0, 10
+	syscall

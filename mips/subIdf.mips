@@ -4,34 +4,61 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -8
-# Affectation de 3 à a
+	add $sp, $sp, -12
+# Affectation de (3 - 1) à i
+	# Soustraction
+ 	# Evaluation de l'opérande gauche
 	li $v0, 3
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 1
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Soustraction
+	sub $v0, $v1, $v0
 	sw $v0, 0($s7)
 
-# Affectation de 2 à b
-	li $v0, 2
+# Ecrire i
+	# Accès à la variable i
+	lw $v0, 0($s7)
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+# Affectation de (4 - 1) à j
+	# Soustraction
+ 	# Evaluation de l'opérande gauche
+	li $v0, 4
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 1
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Soustraction
+	sub $v0, $v1, $v0
 	sw $v0, -4($s7)
 
-# Ecrire (a == 3)
-	# Egal
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 3
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Egal
-	seq $v0, $v1, $v0
+# Ecrire j
+	# Accès à la variable j
+	lw $v0, -4($s7)
 	move $a0, $v0
 	li $v0, 1
 	syscall
@@ -40,10 +67,10 @@ main:
 	li $v0, 4
 	syscall
 
-# Ecrire (b == 0)
-	# Egal
+# Affectation de (j - i) à k
+	# Soustraction
  	# Evaluation de l'opérande gauche
-	# Accès à la variable b
+	# Accès à la variable j
 	lw $v0, -4($s7)
 
 	# Empilement de l'opérande gauche
@@ -51,68 +78,20 @@ main:
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Egal
-	seq $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-# Ecrire (a != 3)
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
+	# Accès à la variable i
 	lw $v0, 0($s7)
 
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 3
-
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Different
-	sne $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
+	# Soustraction
+	sub $v0, $v1, $v0
+	sw $v0, -8($s7)
 
-# Ecrire (b != 1)
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable b
-	lw $v0, -4($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 1
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
+# Ecrire k
+	# Accès à la variable k
+	lw $v0, -8($s7)
 	move $a0, $v0
 	li $v0, 1
 	syscall

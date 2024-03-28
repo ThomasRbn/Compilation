@@ -6,8 +6,8 @@ programme toto {
     a := 3 ;
     b := 4 ;
 
-    ecrire ( a < b ) et ( a = b ) ; // FF
-    ecrire ( a < b ) et ( a > b ) ; // FV
-    ecrire ( b >= a ) et  ( b <= a ) ; // VF
-    ecrire ( a <= b ) et ( a # b ) ; // VV
+    ecrire ( a < b ) et ( a = b ) ; // 0
+    ecrire ( a < b ) et ( a > b ) ; // 0
+    ecrire ( b >= a ) et  ( b <= a ) ; // 0
+    ecrire ( a <= b ) et ( a # b ) ; // 1
 }

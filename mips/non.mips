@@ -1,0 +1,74 @@
+.data
+crlf: .asciiz "\n"
+
+.text
+main:
+	move $s7, $sp
+	add $sp, $sp, -4
+# Affectation de 5 à a
+	li $v0, 5
+	sw $v0, 0($s7)
+
+# Ecrire !(a == 5)
+	# Non
+	# Egal
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 5
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Egal
+	seq $v0, $v1, $v0
+	# Non
+	xori $v0, $v0, 1
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+# Ecrire !(a == 6)
+	# Non
+	# Egal
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 6
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Egal
+	seq $v0, $v1, $v0
+	# Non
+	xori $v0, $v0, 1
+	move $a0, $v0
+	li $v0, 1
+	syscall
+	# Saut de ligne
+	la $a0, crlf
+	li $v0, 4
+	syscall
+
+end:
+	li $v0, 10
+	syscall
