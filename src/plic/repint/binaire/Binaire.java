@@ -13,6 +13,21 @@ public abstract class Binaire extends Expression {
         this.droite = droite;
     }
 
+    protected Binaire() {
+        this.gauche = null;
+        this.droite = null;
+    }
+
+    public Binaire setGauche(Expression gauche) {
+        this.gauche = gauche;
+        return this;
+    }
+
+    public Binaire setDroite(Expression droite) {
+        this.droite = droite;
+        return this;
+    }
+
     @Override
     public String getType() {
         return "boolean";

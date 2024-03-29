@@ -31,9 +31,9 @@ public class AnalyseurSyntaxique {
      */
     private List<String> motsES;
 
-    private List<String> motsBinaires;
-
-    private List<String> motsUnaires;
+    private List<String> operel;
+    private List<String> opad;
+    private List<String> opmul;
 
     private AnalyseurLexical analyseurLexical;
     private String uniteCourante;
@@ -55,23 +55,25 @@ public class AnalyseurSyntaxique {
             add("ecrire");
         }};
 
-        motsBinaires = new ArrayList<>() {{
-            add("+");
-            add("-");
-            add("*");
-            add("et");
-            add("ou");
-            add("<");
+        operel = new ArrayList<>() {{
             add(">");
-            add("<=");
+            add("<");
             add(">=");
+            add("<=");
             add("=");
             add("#");
         }};
 
-        motsUnaires = new ArrayList<>() {{
+        opad = new ArrayList<>() {{
+            add("+");
             add("-");
-            add("non");
+            add("ou");
+        }};
+
+        opmul = new ArrayList<>() {{
+            add("*");
+//            add("/");
+            add("et");
         }};
 
         motsCles.addAll(motsES);
@@ -251,37 +253,92 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseExpression() throws SyntaxiqueException {
-        if (motsUnaires.contains(uniteCourante)) {
+        Expression g = analyseTerme();
+        Expression e = analyseSuiteExp(g);
+        return e == null ? g : e;
+    }
+
+    private Expression analyseTerme() throws SyntaxiqueException {
+        Expression facteur = analyseFacteur();
+        Expression suite = analyseSuiTerme(facteur);
+        return suite == null ? facteur : suite;
+    }
+
+    private Expression analyseFacteur() throws SyntaxiqueException {
+        Expression operande = analyseOperande();
+        if (operel.contains(uniteCourante)) {
+            Binaire res = analyseOprel();
+            Expression droite = analyseExpression();
+            res.setGauche(operande);
+            res.setDroite(droite);
+            return res;
+        }
+        return operande;
+    }
+
+    private Binaire analyseOpad() throws SyntaxiqueException {
+        if (opad.contains(uniteCourante)) {
             String op = uniteCourante;
             uniteCourante = analyseurLexical.next();
-            Expression e = analyseExpression();
             return switch (op) {
-                case "-" -> new Negatif(e);
-                case "non" -> new Non(e);
-                default -> throw new IllegalStateException("Unexpected value: " + op);
+                case "+" -> new Somme(null, null);
+                case "-" -> new Soustraction(null, null);
+                case "ou" -> new Ou(null, null);
+                default -> throw new SyntaxiqueException("ERREUR: opérateur attendu mais " + uniteCourante + " trouvé");
             };
         }
-        Expression e1 = analyseOperande();
-        if (motsBinaires.contains(uniteCourante)) {
+        return null;
+    }
+
+    private Binaire analyseOprel() throws SyntaxiqueException {
+        if (operel.contains(uniteCourante)) {
             String op = uniteCourante;
             uniteCourante = analyseurLexical.next();
-            Expression e2 = analyseOperande();
             return switch (op) {
-                case "+" -> new Somme(e1, e2);
-                case "-" -> new Soustraction(e1, e2);
-                case "*" -> new Produit(e1, e2);
-                case "et" -> new Et(e1, e2);
-                case "ou" -> new Ou(e1, e2);
-                case "<" -> new Inferieur(e1, e2);
-                case ">" -> new Superieur(e1, e2);
-                case "<=" -> new InferieurEgal(e1, e2);
-                case ">=" -> new SuperieurEgal(e1, e2);
-                case "=" -> new Egal(e1, e2);
-                case "#" -> new Different(e1, e2);
-                default -> throw new IllegalStateException("Unexpected value: " + op);
+                case ">" -> new Superieur(null, null);
+                case "<" -> new Inferieur(null, null);
+                case ">=" -> new SuperieurEgal(null, null);
+                case "<=" -> new InferieurEgal(null, null);
+                case "=" -> new Egal(null, null);
+                case "#" -> new Different(null, null);
+                default -> throw new SyntaxiqueException("ERREUR: opérateur attendu mais " + uniteCourante + " trouvé");
             };
         }
-        return e1;
+        return null;
+    }
+
+    private Binaire analyseOpMul() throws SyntaxiqueException {
+        if (opmul.contains(uniteCourante)) {
+            String op = uniteCourante;
+            uniteCourante = analyseurLexical.next();
+            return switch (op) {
+                case "*" -> new Produit(null, null);
+                case "et" -> new Et(null, null);
+                default -> throw new SyntaxiqueException("ERREUR: opérateur attendu mais " + uniteCourante + " trouvé");
+            };
+        }
+        return null;
+    }
+
+
+    private Expression analyseSuiTerme(Expression g) throws SyntaxiqueException {
+        Binaire res = analyseOpMul();
+        if (res == null) return null;
+        Expression d = analyseFacteur();
+        res.setGauche(g);
+        res.setDroite(d);
+        Expression e = analyseSuiTerme(res);
+        return e == null ? res : e;
+    }
+
+    Expression analyseSuiteExp(Expression gauche) throws SyntaxiqueException {
+        Binaire res = analyseOpad();
+        if (res == null) return null;
+        Expression droit = analyseTerme();
+        res.setGauche(gauche);
+        res.setDroite(droit);
+        Expression e = analyseSuiteExp(res);
+        return e == null ? res : e;
     }
 
     /**
@@ -290,7 +347,7 @@ public class AnalyseurSyntaxique {
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
     private Expression analyseOperande() throws SyntaxiqueException {
-        if (!estIdf() && !uniteCourante.matches("[0-9]+") && !uniteCourante.equals("(")) // Identifiant ou entier
+        if (!estIdf() && !uniteCourante.matches("[0-9]+") && !uniteCourante.equals("(") && !uniteCourante.equals("-")) // Identifiant ou entier
             throw new SyntaxiqueException("ERREUR: idf ou entier attendu mais " + uniteCourante + " trouvé");
 
         try {
@@ -298,6 +355,18 @@ public class AnalyseurSyntaxique {
             uniteCourante = analyseurLexical.next();
             return new Nombre(entier);
         } catch (NumberFormatException e) {
+
+            if (uniteCourante.equals("non") || uniteCourante.equals("-")) {
+                if (uniteCourante.equals("non")) {
+                    uniteCourante = analyseurLexical.next();
+                    Expression exp = analyseExpression();
+                    return new Non(exp);
+                } else {
+                    uniteCourante = analyseurLexical.next();
+                    Expression exp = analyseExpression();
+                    return new Negatif(exp);
+                }
+            }
 
             //gestion des parentheses
             if (uniteCourante.equals("(")) {

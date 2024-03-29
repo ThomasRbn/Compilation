@@ -2,9 +2,7 @@
 
 # On vide le dossier mips
 rm -rf mips
-rm -fr approved
 mkdir mips
-mkdir approved
 
 # Vérifier si le nombre d'arguments est différent de 1
 if [ "$#" -ne 1 ]; then
@@ -26,6 +24,11 @@ fi
 for file in "$1"/*; do
     # Vérifier si le fichier est un fichier
     if [ -f "$file" ]; then
+      #Si le fichier est déjà approuvé on passe
+      if [ -f "approved/$(basename "$file" .plic).txt" ]; then
+        echo "$(basename "$file" .plic) déjà approuvé."
+        continue
+      fi
         # Vérifier si le fichier est un fichier PLIC
         if file "$file" | grep -q "plic"; then
             java -jar plic.jar "$file" >> mips/"$(basename "$file" .plic)".mips
