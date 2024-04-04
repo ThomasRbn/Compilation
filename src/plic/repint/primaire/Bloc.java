@@ -34,22 +34,10 @@ public class Bloc {
     }
 
     public String toMIPS() {
-        String res = """
-                .data
-                crlf: .asciiz "\\n"
-                
-                .text
-                main:
-                """;
-        res += TDS.getInstance().toMIPS();
+        String res = "";
         for (Instruction i : instructions) {
             res += i.toMIPS();
         }
-        res += """
-                
-                end:
-                \tli $v0, 10
-                \tsyscall""";
         return res;
     }
 }

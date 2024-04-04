@@ -86,12 +86,12 @@ public class AnalyseurSyntaxique {
      *
      * @return
      */
-    public Bloc analyse() throws SyntaxiqueException, DoubleDeclarationException {
-        Bloc bloc = new Bloc();
+    public Programme analyse() throws SyntaxiqueException, DoubleDeclarationException {
+        Programme prog = new Programme();
         uniteCourante = analyseurLexical.next();
-        analyseProg(bloc);
+        analyseProg(prog);
         analyseTerminal("EOF");
-        return bloc;
+        return prog;
     }
 
     /**
@@ -99,12 +99,15 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private void analyseProg(Bloc bloc) throws SyntaxiqueException, DoubleDeclarationException {
+    private void analyseProg(Programme programme) throws SyntaxiqueException, DoubleDeclarationException {
         analyseTerminal("programme"); // Mot clé programme
 
         if (!estIdf()) // Identifiant
             throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
         uniteCourante = analyseurLexical.next();
+
+        Bloc bloc = new Bloc();
+        programme.setBloc(bloc);
 
         analyseBloc(bloc); // Bloc
     }
