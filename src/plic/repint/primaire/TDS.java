@@ -1,6 +1,7 @@
-package plic.repint;
+package plic.repint.primaire;
 
 import plic.exceptions.DoubleDeclarationException;
+import plic.repint.Entree;
 
 import java.util.Map;
 

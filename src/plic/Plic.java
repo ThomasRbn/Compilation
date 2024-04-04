@@ -5,8 +5,7 @@ import plic.exceptions.DeclarManquanteException;
 import plic.exceptions.DoubleDeclarationException;
 import plic.exceptions.NotPlicFileException;
 import plic.exceptions.SyntaxiqueException;
-import plic.repint.Bloc;
-import plic.repint.TDS;
+import plic.repint.primaire.Bloc;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -4,115 +4,40 @@ crlf: .asciiz "\n"
 .text
 main:
 	move $s7, $sp
-	add $sp, $sp, -8
-# Affectation de 3 à a
-	li $v0, 3
-	sw $v0, 0($s7)
-
-# Affectation de 2 à b
-	li $v0, 2
-	sw $v0, -4($s7)
-
-# Ecrire (a == 3)
-	# Egal
+	add $sp, $sp, -0
+# Ecrire (5 + 3>6)
+	# Somme
  	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
+	li $v0, 5
 
 	# Empilement de l'opérande gauche
 	sw $v0, 0($sp)
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
+	# SUP
+ 	# Evaluation de l'opérande gauche
 	li $v0, 3
 
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Egal
-	seq $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-# Ecrire (b == 0)
-	# Egal
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable b
-	lw $v0, -4($s7)
-
 	# Empilement de l'opérande gauche
 	sw $v0, 0($sp)
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
-	li $v0, 0
+	li $v0, 6
 
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Egal
-	seq $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-# Ecrire (a != 3)
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 3
+	sgt $v0, $v1, $v0
 
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Different
-	sne $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-
-# Ecrire (b != 1)
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable b
-	lw $v0, -4($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 1
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
+	# Addition
+	add $v0, $v1, $v0
 	move $a0, $v0
 	li $v0, 1
 	syscall

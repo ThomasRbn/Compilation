@@ -1,9 +1,7 @@
 package plic.tests;
 
 import org.junit.jupiter.api.Test;
-import plic.repint.Affectation;
-import plic.repint.Bloc;
-import plic.repint.Nombre;
+import plic.repint.primaire.Bloc;
 
 public class TestInstruction {
 

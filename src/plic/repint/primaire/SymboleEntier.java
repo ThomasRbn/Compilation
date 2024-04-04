@@ -1,4 +1,4 @@
-package plic.repint;
+package plic.repint.primaire;
 
 public class SymboleEntier {
 

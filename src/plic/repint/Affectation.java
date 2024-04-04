@@ -1,6 +1,8 @@
 package plic.repint;
 
 import plic.exceptions.DeclarManquanteException;
+import plic.repint.primaire.Instruction;
+import plic.repint.primaire.TDS;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
 package plic.repint;
 
 import plic.exceptions.DeclarManquanteException;
+import plic.repint.primaire.TDS;
 
 public abstract class Acces extends Expression {
 

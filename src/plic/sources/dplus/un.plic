@@ -1,13 +1,5 @@
 programme pro {
-    entier a ;
-    entier b ;
-    entier c ;
 
-    a := 1 + 2 + 3 ;
-    b := 1 + 2 * 3 ;
-    c := ( 1 + 2 ) * ( 3 - 4 ) + 2 ; // -1
+    ecrire 5 + 3 > 6 ;
 
-    ecrire a ;
-    ecrire b ;
-    ecrire c ;
 }

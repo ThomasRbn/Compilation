@@ -6,6 +6,7 @@ import plic.repint.*;
 import plic.repint.binaire.*;
 import plic.repint.binaire.logique.Et;
 import plic.repint.binaire.logique.Ou;
+import plic.repint.primaire.*;
 import plic.repint.unaire.Negatif;
 import plic.repint.unaire.Non;
 

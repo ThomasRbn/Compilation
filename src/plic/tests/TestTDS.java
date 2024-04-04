@@ -1,14 +1,16 @@
 package plic.tests;
 
 //JUNIT
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import plic.exceptions.DoubleDeclarationException;
 import plic.repint.Entree;
-import plic.repint.SymboleEntier;
-import plic.repint.TDS;
+import plic.repint.primaire.SymboleEntier;
+import plic.repint.primaire.TDS;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class TestTDS {

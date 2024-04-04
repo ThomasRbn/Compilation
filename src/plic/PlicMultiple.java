@@ -1,6 +1,6 @@
 package plic;
 
-import plic.repint.TDS;
+import plic.repint.primaire.TDS;
 
 import java.io.File;
 

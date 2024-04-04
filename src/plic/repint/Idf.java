@@ -1,5 +1,7 @@
 package plic.repint;
 
+import plic.repint.primaire.TDS;
+
 public class Idf extends Acces {
 
     public Idf(String nom) {
