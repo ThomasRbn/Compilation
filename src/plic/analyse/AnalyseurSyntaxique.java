@@ -64,6 +64,7 @@ public class AnalyseurSyntaxique {
 
         motsES = new ArrayList<>() {{
             add("ecrire");
+            add("lire");
         }};
 
         operel = new ArrayList<>() {{
@@ -212,16 +213,23 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private Ecrire analyseES() throws SyntaxiqueException {
+    private Instruction analyseES() throws SyntaxiqueException {
         if (!motsES.contains(uniteCourante))
             throw new SyntaxiqueException("ERREUR: mot clé ES attendu mais " + uniteCourante + " trouvé");
-        uniteCourante = analyseurLexical.next();
+//        uniteCourante = analyseurLexical.next();
 
-        Expression idf = analyseExpression();
+        if (uniteCourante.equals("ecrire")) {
+            uniteCourante = analyseurLexical.next();
+            Expression idf = analyseExpression();
+            analyseTerminal(";");
+            return new Ecrire(idf);
+        } else {
+            uniteCourante = analyseurLexical.next();
+            Acces idf = analyseAcces();
+            analyseTerminal(";");
+            return new Lire(idf);
+        }
 
-        analyseTerminal(";");
-
-        return new Ecrire(idf);
     }
 
     /**

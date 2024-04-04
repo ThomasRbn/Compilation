@@ -1,0 +1,7 @@
+programme toto {
+
+    entier a ;
+
+    lire a ;
+    ecrire a ;
+}
