@@ -39,24 +39,24 @@ public class Si extends Instruction {
 
         if (sinon == null) {
             res += """
-                    \tbeqz $v0, fin""" + Programme.compteurSi + """
+                    \tbeqz $v0, fin""" + Programme.compteur + """
                     """;
             res += alors.toMIPS();
         } else {
             res += """
-                    \tbeqz $v0, sinon""" + Programme.compteurSi + """
+                    \tbeqz $v0, sinon""" + Programme.compteur + """
                     """;
             res += alors.toMIPS();
             res += """
-                    \tj fin""" + Programme.compteurSi + "\n";
+                    \tj fin""" + Programme.compteur + "\n";
             res += """
-                    sinon""" + Programme.compteurSi + ":\n";
+                    sinon""" + Programme.compteur + ":\n";
             res += sinon.toMIPS();
         }
         res += """
-                fin""" + Programme.compteurSi + ":\n";
+                fin""" + Programme.compteur + ":\n";
 
-        Programme.compteurSi++;
+        Programme.compteur++;
         return res;
     }
 }

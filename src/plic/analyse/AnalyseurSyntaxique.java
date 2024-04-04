@@ -6,7 +6,9 @@ import plic.repint.*;
 import plic.repint.binaire.*;
 import plic.repint.binaire.logique.Et;
 import plic.repint.binaire.logique.Ou;
+import plic.repint.controle.Boucle;
 import plic.repint.controle.Si;
+import plic.repint.controle.TantQue;
 import plic.repint.primaire.*;
 import plic.repint.unaire.Negatif;
 import plic.repint.unaire.Non;
@@ -187,6 +189,8 @@ public class AnalyseurSyntaxique {
     private Instruction analyseInstruction() throws SyntaxiqueException, DoubleDeclarationException {
         if (estSi()) {
             return analyseSi();
+        } else if (estBoucle()) {
+            return analyseBoucle();
         } else if (estAffectation()) { // Affectation
             return analyseAffectation();
         } else if (estES()) { // ES
@@ -428,6 +432,26 @@ public class AnalyseurSyntaxique {
         return new Si(condition, alors, sinon);
     }
 
+    private Boucle analyseBoucle() throws SyntaxiqueException, DoubleDeclarationException {
+        if (!uniteCourante.equals("tantque") && !uniteCourante.equals("pour")) {
+            throw new SyntaxiqueException("ERREUR: tantque ou pour attendu mais " + uniteCourante + " trouvé");
+        }
+
+        if (uniteCourante.equals("tantque")) {
+            analyseTerminal("tantque");
+            analyseTerminal("(");
+            Expression condition = analyseExpression();
+            analyseTerminal(")");
+            analyseTerminal("repeter");
+            Bloc contenu = new Bloc();
+            analyseBloc(contenu);
+            return new TantQue(contenu).setCondition(condition);
+        } else {
+            //TODO
+        }
+        return null;
+    }
+
     /**
      * Vérifie si l'unite courante est un identifiant composé uniquement de lettres
      *
@@ -475,5 +499,9 @@ public class AnalyseurSyntaxique {
 
     private boolean estSi() {
         return uniteCourante.equals("si");
+    }
+
+    private boolean estBoucle() {
+        return uniteCourante.equals("tantque") || uniteCourante.equals("pour");
     }
 }

@@ -8,11 +8,8 @@ main:
 # Affectation de 0 à a
 	li $v0, 0
 	sw $v0, 0($s7)
-
-# Ecrire (a == 0)||(a != 0)
-	# OU
- 	# Evaluation de l'opérande gauche
-	# Egal
+tantque0:
+	# InferieurEgal
  	# Evaluation de l'opérande gauche
 	# Accès à la variable a
 	lw $v0, 0($s7)
@@ -22,113 +19,15 @@ main:
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
-	li $v0, 0
+	li $v0, 10
 
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# Egal
-	seq $v0, $v1, $v0
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	or $v0, $v1, $v0
-	move $a0, $v0
-	li $v0, 1
-	syscall
-	# Saut de ligne
-	la $a0, crlf
-	li $v0, 4
-	syscall
-	# OU
- 	# Evaluation de l'opérande gauche
-	# Egal
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Egal
-	seq $v0, $v1, $v0
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	# Different
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Different
-	sne $v0, $v1, $v0
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	or $v0, $v1, $v0
-	beqz $v0, sinon0
-# Affectation de 1 à a
-	li $v0, 1
-	sw $v0, 0($s7)
-	j fin0
-sinon0:
-
-# Affectation de 2 à a
-	li $v0, 2
-	sw $v0, 0($s7)
-fin0:
-
+	# InferieurEgal
+	sle $v0, $v1, $v0
+	beqz $v0, fintantque0
 # Ecrire a
 	# Accès à la variable a
 	lw $v0, 0($s7)
@@ -139,6 +38,29 @@ fin0:
 	la $a0, crlf
 	li $v0, 4
 	syscall
+
+# Affectation de (a + 1) à a
+	# Somme
+ 	# Evaluation de l'opérande gauche
+	# Accès à la variable a
+	lw $v0, 0($s7)
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 1
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Addition
+	add $v0, $v1, $v0
+	sw $v0, 0($s7)
+	j tantque0
+fintantque0:
 
 end:
 	li $v0, 10

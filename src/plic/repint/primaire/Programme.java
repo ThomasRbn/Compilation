@@ -5,7 +5,7 @@ import plic.exceptions.DeclarManquanteException;
 public class Programme {
 
     private Bloc bloc;
-    public static int compteurSi = 0;
+    public static int compteur = 0;
 
     @Override
     public String toString() {
