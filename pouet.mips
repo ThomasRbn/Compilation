@@ -38,27 +38,6 @@ tantque0:
 	la $a0, crlf
 	li $v0, 4
 	syscall
-
-# Affectation de (a + 1) à a
-	# Somme
- 	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
-
-	# Empilement de l'opérande gauche
-	sw $v0, 0($sp)
-	addi $sp, $sp, -4
-
-	# Evaluation de l'opérande droite
-	li $v0, 1
-
-	# Dépilement de l'opérande gauche
-	addi $sp, $sp, 4
-	lw $v1, 0($sp)
-
-	# Addition
-	add $v0, $v1, $v0
-	sw $v0, 0($s7)
 	j tantque0
 fintantque0:
 

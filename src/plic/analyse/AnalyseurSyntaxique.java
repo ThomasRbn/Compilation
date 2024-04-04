@@ -48,6 +48,12 @@ public class AnalyseurSyntaxique {
         motsCles = new ArrayList<>() {{
             add("programme");
             add("EOF");
+            add("si");
+            add("alors");
+            add("sinon");
+            add("tantque");
+            add("repeter");
+            add("pour");
         }};
 
         motsDeclaration = new ArrayList<>() {{
@@ -82,6 +88,7 @@ public class AnalyseurSyntaxique {
 
         motsCles.addAll(motsES);
         motsCles.addAll(motsDeclaration);
+
     }
 
     /**
@@ -476,7 +483,7 @@ public class AnalyseurSyntaxique {
      * @return true si l'unite courante est une affectation ou un ES
      */
     private boolean estInstruction() {
-        return estAffectation() || estES();
+        return estAffectation() || estES() || estSi() || estBoucle();
     }
 
     /**
