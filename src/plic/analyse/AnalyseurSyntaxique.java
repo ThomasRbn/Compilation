@@ -7,6 +7,7 @@ import plic.repint.binaire.*;
 import plic.repint.binaire.logique.Et;
 import plic.repint.binaire.logique.Ou;
 import plic.repint.controle.Boucle;
+import plic.repint.controle.Pour;
 import plic.repint.controle.Si;
 import plic.repint.controle.TantQue;
 import plic.repint.primaire.*;
@@ -454,9 +455,26 @@ public class AnalyseurSyntaxique {
             analyseBloc(contenu);
             return new TantQue(contenu).setCondition(condition);
         } else {
-            //TODO
+            analyseTerminal("pour");
+            Idf init = analyseIdf();
+            analyseTerminal("dans");
+            Expression condition = analyseExpression();
+            analyseTerminal("..");
+            Expression inc = analyseExpression();
+            analyseTerminal("repeter");
+            Bloc contenu = new Bloc();
+            analyseBloc(contenu);
+            return new Pour(contenu, init, condition, inc);
         }
-        return null;
+    }
+
+    private Idf analyseIdf() throws SyntaxiqueException {
+        if (!estIdf()) {
+            throw new SyntaxiqueException("ERREUR: idf attendu mais " + uniteCourante + " trouvé");
+        }
+        Idf idf = new Idf(uniteCourante);
+        uniteCourante = analyseurLexical.next();
+        return idf;
     }
 
     /**

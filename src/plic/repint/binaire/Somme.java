@@ -7,6 +7,11 @@ public class Somme extends Binaire {
         super(gauche, droite);
     }
 
+    @Override
+    public String getType() {
+        return "entier";
+    }
+
 
     @Override
     public String toMIPS() {

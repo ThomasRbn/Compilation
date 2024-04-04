@@ -1,0 +1,7 @@
+programme toto {
+    entier a ;
+
+    pour a dans 2 * 4 .. 9 + 1 repeter {
+        ecrire a ;
+    }
+}

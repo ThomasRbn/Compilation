@@ -5,30 +5,61 @@ crlf: .asciiz "\n"
 main:
 	move $s7, $sp
 	add $sp, $sp, -4
-# Affectation de 0 à a
-	li $v0, 0
-	sw $v0, 0($s7)
-tantque0:
-	# InferieurEgal
+# Affectation de (2 * 4) à a
+	# Produit
  	# Evaluation de l'opérande gauche
-	# Accès à la variable a
-	lw $v0, 0($s7)
+	li $v0, 2
 
 	# Empilement de l'opérande gauche
 	sw $v0, 0($sp)
 	addi $sp, $sp, -4
 
 	# Evaluation de l'opérande droite
-	li $v0, 10
+	li $v0, 4
 
 	# Dépilement de l'opérande gauche
 	addi $sp, $sp, 4
 	lw $v1, 0($sp)
 
-	# InferieurEgal
-	sle $v0, $v1, $v0
-	beqz $v0, fintantque0
+	# Produit
+	mul $v0, $v1, $v0
+	sw $v0, 0($s7)
+# Borne supérieure
+	# Somme
+ 	# Evaluation de l'opérande gauche
+	li $v0, 9
+
+	# Empilement de l'opérande gauche
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+
+	# Evaluation de l'opérande droite
+	li $v0, 1
+
+	# Dépilement de l'opérande gauche
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+
+	# Addition
+	add $v0, $v1, $v0
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+pour0:
+
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	# Comparaison de a et (9 + 1)
+	addi $sp, $sp, 4
+	lw $v1, 0($sp)
+	bgt $v0, $v1, finpour0
+move $t1, $v0
+move $v0, $v1
+	sw $v0, 0($sp)
+	addi $sp, $sp, -4
+move $v0, $t1
+
 # Ecrire a
+
 	# Accès à la variable a
 	lw $v0, 0($s7)
 	move $a0, $v0
@@ -38,8 +69,13 @@ tantque0:
 	la $a0, crlf
 	li $v0, 4
 	syscall
-	j tantque0
-fintantque0:
+
+	# Accès à la variable a
+	lw $v0, 0($s7)
+	addi $v0, $v0, 1
+sw $v0, 0($s7)
+j pour0
+finpour0:
 
 end:
 	li $v0, 10

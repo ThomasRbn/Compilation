@@ -22,4 +22,9 @@ public class Soustraction extends Binaire {
         return "(" + gauche + " - " + droite + ")";
     }
 
+    @Override
+    public String getType() {
+        return "entier";
+    }
+
 }

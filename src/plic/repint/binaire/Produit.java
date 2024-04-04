@@ -8,6 +8,11 @@ public class Produit extends Binaire {
     }
 
     @Override
+    public String getType() {
+        return "entier";
+    }
+
+    @Override
     public String toMIPS() {
         return """
                 \t# Produit
