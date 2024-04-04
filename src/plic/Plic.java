@@ -21,7 +21,7 @@ public class Plic {
         AnalyseurSyntaxique analyseurSyntaxique = new AnalyseurSyntaxique(file);
         Programme programme = analyseurSyntaxique.analyse();
         programme.verifier();
-        System.out.println(programme.getBloc());
+//        System.out.println(programme.getBloc());
 //        System.out.println(bloc);
 //        System.out.println(TDS.getInstance());
 

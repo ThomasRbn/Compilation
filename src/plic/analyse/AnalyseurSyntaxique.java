@@ -6,6 +6,7 @@ import plic.repint.*;
 import plic.repint.binaire.*;
 import plic.repint.binaire.logique.Et;
 import plic.repint.binaire.logique.Ou;
+import plic.repint.controle.Si;
 import plic.repint.primaire.*;
 import plic.repint.unaire.Negatif;
 import plic.repint.unaire.Non;
@@ -183,8 +184,10 @@ public class AnalyseurSyntaxique {
      *
      * @throws SyntaxiqueException si l'analyse syntaxique échoue
      */
-    private Instruction analyseInstruction() throws SyntaxiqueException {
-        if (estAffectation()) { // Affectation
+    private Instruction analyseInstruction() throws SyntaxiqueException, DoubleDeclarationException {
+        if (estSi()) {
+            return analyseSi();
+        } else if (estAffectation()) { // Affectation
             return analyseAffectation();
         } else if (estES()) { // ES
             return analyseES();
@@ -408,6 +411,23 @@ public class AnalyseurSyntaxique {
         uniteCourante = analyseurLexical.next();
     }
 
+    private Si analyseSi() throws SyntaxiqueException, DoubleDeclarationException {
+        analyseTerminal("si");
+        analyseTerminal("(");
+        Expression condition = analyseExpression();
+        analyseTerminal(")");
+        analyseTerminal("alors");
+        Bloc alors = new Bloc();
+        analyseBloc(alors);
+        Bloc sinon = null;
+        if (uniteCourante.equals("sinon")) {
+            uniteCourante = analyseurLexical.next();
+            sinon = new Bloc();
+            analyseBloc(sinon);
+        }
+        return new Si(condition, alors, sinon);
+    }
+
     /**
      * Vérifie si l'unite courante est un identifiant composé uniquement de lettres
      *
@@ -451,5 +471,9 @@ public class AnalyseurSyntaxique {
      */
     private boolean estES() {
         return motsES.contains(uniteCourante);
+    }
+
+    private boolean estSi() {
+        return uniteCourante.equals("si");
     }
 }

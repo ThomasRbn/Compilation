@@ -1,0 +1,16 @@
+programme toto {
+
+    entier a ;
+
+    a := 0 ;
+
+    si ( ( a = 0 ) ou ( a # 0 ) )
+    alors {
+        a := 1 ;
+    }
+    sinon {
+        a := 2 ;
+    }
+
+    ecrire a ;
+}
